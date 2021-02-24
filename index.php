@@ -61,7 +61,7 @@ function archive()
  */
 function viewArticle() 
 {   
-    if ( !isset($_GET["articleId"]) || !$_GET["articleId"] ) {
+    if (!isset($_GET["articleId"]) || !$_GET["articleId"]) {
       homepage();
       return;
     }
@@ -84,24 +84,48 @@ function viewArticle()
  * Вывод домашней ("главной") страницы сайта
  */
 function homepage() 
-{
+{   
     $results = array();
-    $data = Article::getList(HOMEPAGE_NUM_ARTICLES);
+    $data = Article::getList(HOMEPAGE_NUM_ARTICLES,1,"publicationDate DESC",1);
     $results['articles'] = $data['results'];
     $results['totalRows'] = $data['totalRows'];
     
+//    echo "<pre>";
+//    print_r($results['articles']);
+//    echo "</pre>";
+//    echo "<pre>";
+//    print_r($data);
+//    echo "</pre>";
+//    die();
+    
     $data = Category::getList();
     $results['categories'] = array();
-    foreach ( $data['results'] as $category ) { 
-        $results['categories'][$category->id] = $category;
-    } 
+//    echo "<pre>";
+//    print_r($data['results']);
+//    echo "</pre>";
+//    die();
     
+    foreach ( $data['results'] as $category ) {
+        $results['categories'][$category->id] = $category;
+//    echo "<pre>";
+//    print_r($results['categories'][$category->id]);
+//    echo $category->id;
+//    echo "</pre>";
+
+    } 
+
     $results['pageTitle'] = "Простая CMS на PHP";
     
 //    echo "<pre>";
 //    print_r($data);
 //    echo "</pre>";
 //    die();
+   
+//    echo "<pre>";
+//    print_r($results);
+//    echo "</pre>";
+//    die();
+    
     
     require(TEMPLATE_PATH . "/homepage.php");
     

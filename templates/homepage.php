@@ -26,6 +26,7 @@
                     </span>
                 <?php } ?>
             </h2>
+<!--            <p class="summary"><?php echo htmlspecialchars($article->fiftychars)?></p>-->
             <p class="summary"><?php echo htmlspecialchars($article->summary)?></p>
             <img id="loader-identity" src="JS/ajax-loader.gif" alt="gif">
             

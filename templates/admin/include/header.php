@@ -4,5 +4,6 @@
         <a href="admin.php?action=listArticles">Edit Articles</a> 
         <a href="admin.php?action=listCategories">Edit Categories</a> 
         <a href="admin.php?action=logout"?>Log Out</a>
+        <a href="admin.php?action=listUsers"?>Users</a>
     </p>
 </div>

@@ -1,7 +1,9 @@
 <?php include "templates/include/header.php" ?>
 <?php include "templates/admin/include/header.php" ?>
-<!--        <?php echo "<pre>";
+<!--            <?php echo "<pre>";
             print_r($results);
+            "<BR/>";
+            echo 345; 
             print_r($data);
         echo "<pre>"; ?> Данные о массиве $results и типе формы передаются корректно-->
 
@@ -45,16 +47,38 @@
                 <label for="publicationDate">Publication Date</label>
                 <input type="date" name="publicationDate" id="publicationDate" placeholder="YYYY-MM-DD" required maxlength="10" value="<?php echo $results['article']->publicationDate ? date( "Y-m-d", $results['article']->publicationDate ) : "" ?>" />
               </li>
-
-
+              
+              <li>
+                <label for="active">Active</label>
+                <INPUT NAME="active" TYPE="CHECKBOX" VALUE="1"
+                    <?php
+                        if ($results['article']->ActiveArticle ==1){
+                           echo "checked";
+                        }
+                        
+                
+                    ?>     
+                       
+                       
+                >
+                  
+                   
+                     
+                
+              </li>
+ 
             </ul>
-
+            
+            
             <div class="buttons">
               <input type="submit" name="saveChanges" value="Save Changes" />
               <input type="submit" formnovalidate name="cancel" value="Cancel" />
             </div>
-
+            
         </form>
+
+        
+        
 
     <?php if ($results['article']->id) { ?>
           <p><a href="admin.php?action=deleteArticle&amp;articleId=<?php echo $results['article']->id ?>" onclick="return confirm('Delete This Article?')">

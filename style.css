@@ -111,6 +111,15 @@ h3.categoryDescription {
   line-height: 2em;
 }
 
+.subcategory {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 60%;
+  color: #666;
+  display: block;
+  line-height: 2em; 
+}
+
 .category a {
   color: #999;
   text-decoration: underline;

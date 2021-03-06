@@ -1,6 +1,12 @@
 
 <?php include "templates/include/header.php" ?>
     <ul id="headlines">
+<?php       
+//    echo "<pre>";
+//    print_r($results['articles']);
+//    echo "</pre>";
+//    die();
+?>
     <?php foreach ($results['articles'] as $article) { ?>
         <li class='<?php echo $article->id?>'>
             <h2>
@@ -14,7 +20,7 @@
                 
                 <?php if (isset($article->categoryId)) { ?>
                     <span class="category">
-                        in 
+                        Категория 
                         <a href=".?action=archive&amp;categoryId=<?php echo $article->categoryId?>">
                             <?php echo htmlspecialchars($results['categories'][$article->categoryId]->name )?>
                         </a>
@@ -24,9 +30,29 @@
                     <span class="category">
                         <?php echo "Без категории"?>
                     </span>
+
                 <?php } ?>
+                
+                <?php if (isset($article->subcategoryId)) { ?>    
+                    <span class="subcategory">
+                        Подкатегория 
+                        <a href=".?action=subcategoryArchive&amp;subcategoryId=<?php echo $article->subcategoryId?>">
+                            <?php echo htmlspecialchars($results["subcategories"][$article->subcategoryId]->titleSubcat)?>
+                        </a>
+                    </span>
             </h2>
+                <?php }
+            
+                else { ?>
+                    <h4>
+                        <span class="subcategory">
+                            <?php echo "Без подкатегории"?>
+                        </span>
+                    </h4>
+                <?php } ?>
+           
 <!--            <p class="summary"><?php echo htmlspecialchars($article->fiftychars)?></p>-->
+                
             <p class="summary"><?php echo htmlspecialchars($article->summary)?></p>
             <img id="loader-identity" src="JS/ajax-loader.gif" alt="gif">
             

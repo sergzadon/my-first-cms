@@ -42,6 +42,15 @@
                 <?php } ?>
                 </select>
               </li>
+              <li>
+                <label for="categoryId">Subcategory</label>
+                <select name="subcategoryId">
+                  <option value="0"<?php echo !$results['article']->subcategoryId ? " selected" : ""?>>(none)</option>
+                <?php foreach ( $results['subcategories'] as $subcategory ) { ?>
+                  <option value="<?php echo $subcategory->id?>"<?php echo ( $subcategory->id == $results['article']->subcategoryId ) ? " selected" : ""?>><?php echo htmlspecialchars( $subcategory->name )?></option>
+                <?php } ?>
+                </select>
+              </li>
 
               <li>
                 <label for="publicationDate">Publication Date</label>
@@ -55,15 +64,7 @@
                         if ($results['article']->ActiveArticle ==1){
                            echo "checked";
                         }
-                        
-                
-                    ?>     
-                       
-                       
-                >
-                  
-                   
-                     
+                    ?> >  
                 
               </li>
  

@@ -50,6 +50,18 @@ switch ($action) {
     case 'deleteUser':
         deleteUser();
         break;
+    case 'listSubcategories':
+        listSubcategories();
+        break;
+    case 'newSubcategory':
+        newSubcategory();
+        break;
+    case 'editSubcategory':
+        editSubcategory();
+        break;
+    case 'deleteSubcategory':
+        deleteSubcategory();
+        break;
     default:
         listArticles();
 }
@@ -180,6 +192,10 @@ function newArticle() {
 
         // Пользователь еще не получил форму редактирования: выводим форму
         $results['article'] = new Article;
+//            echo "<pre>";
+//            print_r($results['article']);
+//            echo "<pre>";
+//            die();
         $data = Category::getList();
         $results['categories'] = $data['results'];
         require( TEMPLATE_PATH . "/admin/editArticle.php" );
@@ -218,6 +234,10 @@ function editArticle() {
 //        echo "<pre>";
 //        die();
         $article->storeFormValues( $_POST );
+//        echo "<pre>";
+//        print_r($_POST);
+//        echo "<pre>";
+//        die();       
         $article->update();
         header( "Location: admin.php?status=changesSaved" );
         

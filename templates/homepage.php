@@ -54,7 +54,7 @@
 <!--            <p class="summary"><?php echo htmlspecialchars($article->fiftychars)?></p>-->
                 
             <p class="summary"><?php echo htmlspecialchars($article->summary)?></p>
-            <p class="summary"><?php echo htmlspecialchars($article->fyftychars)?></p>
+            <p class="summary"><?php echo htmlspecialchars($article->fiftychars)?></p>
             <img id="loader-identity" src="JS/ajax-loader.gif" alt="gif">
             
             <ul class="ajax-load">

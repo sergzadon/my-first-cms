@@ -38,7 +38,6 @@ switch ($action) {
     case 'deleteCategory':
         deleteCategory();
         break;
-
     case 'listUsers':
         listUsers();
         break;
@@ -219,23 +218,39 @@ function editArticle() {
     $results['formAction'] = "editArticle";
 
     if (isset($_POST['saveChanges']))  {
-        $checkcategory = Subcategory::getSubcatId($_POST["subcategoryId"])->outerId;
-        if($checkcategory != $_POST["categoryId"]){
-            $results["errorMessage"] = "Данная подкатегория не соответствует категории";
-           
-            $results["article"] = new Article();
-//            echo "<pre>";
-//            print_r($article["article"]);
+        
+      $Article = new Article();
+//                   echo "<pre>";
+//            print_r($Article);
 //            echo "<pre>";
 //            die();
+      $Article->storeFormValues( $_POST );
+//             echo "<pre>";
+//            print_r($Article);
+//            print_r($Article->categoryId);
+//            echo "<pre>";
+//            die();
+//      $checkcategory = Subcategory::getSubcatId($Article->categoryId)->outerId;
+//             echo "<pre>";
+//            print_r($checkcategory);
+//            echo "<pre>";
+//            die();
+     if (!$checkcategory = Subcategory::getSubcatId($Article->categoryId)->outerId){
+         $results["errorMessage"] = "Данная подкатегория не соответствует категории";
+         $results["article"] = new Article();
+     }
+      
+//        $checkcategory = Subcategory::getSubcatId($_POST["subcategoryId"])->outerId;
+//        if($checkcategory != $_POST["categoryId"]){
+            
  
-            foreach($_POST as $key1 => $value1){
-                foreach($results["article"] as $key2 => $value2){
-                   if($key1 == $key2){
-                       $results["article"]-> $key2 = $_POST[$key1];
-                    }
-               }
-            }
+//            foreach($_POST as $key1 => $value1){
+//                foreach($results["article"] as $key2 => $value2){
+//                   if($key1 == $key2){
+//                       $results["article"]->$key2 = $_POST[$key1];
+//                    }
+//               }
+//            }
 //             echo "<pre>";
 //            print_r($results["article"]);
 //            echo "<pre>";
@@ -248,19 +263,15 @@ function editArticle() {
             header( "Location: admin.php?error=articleNotFound" );
             return;
         }
-        
         require(TEMPLATE_PATH . "/admin/editArticle.php");
+        
         }
-        else {
+        elseif {
           // добавил в задание 2
         // меняем значение поля active в базе данных
-        if (!isset($_POST['active'])){
+        if (!isset($_POST['active'])) {
             $_POST['active'] = 0;
         }
-    //        echo "<pre>";
-    //        print_r($_POST);
-    //        echo "<pre>";
-    //        die();
             $article->storeFormValues( $_POST );
     //        echo "<pre>";
     //        print_r($_POST);
@@ -269,14 +280,16 @@ function editArticle() {
             $article->update();
             header( "Location: admin.php?status=changesSaved" );
         }
-    
-    } 
+  
     
     elseif ( isset( $_POST['cancel'] ) ) {
 
         // Пользователь отказался от результатов редактирования: возвращаемся к списку статей
         header( "Location: admin.php" );
-    } else {
+    } 
+    
+    else 
+    {
 
         // Пользoватель еще не получил форму редактирования: выводим форму
         $results['article'] = Article::getById((int)$_GET['articleId']);
@@ -289,6 +302,7 @@ function editArticle() {
     }
 
 }
+
 
 
 function deleteArticle() {
@@ -500,11 +514,7 @@ function newUser(){
         //
                 
         $user = new User();
-//        echo "<pre>";
-//        print_r($user);
-//        print_r($_POST);
-//        echo "<pre>";
-//        die();
+
         $user->storeFormValues( $_POST );
 //            echo "<pre>";
 //            print_r($user);

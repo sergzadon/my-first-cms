@@ -231,7 +231,7 @@ function editArticle() {
             foreach($_POST as $key1 => $value1){
                 foreach($results["article"] as $key2 => $value2){
                    if($key1 == $key2){
-                       $results["article"]-> $key2 = $_POST[$key1];
+                       $results["article"]-> $key2 = $value1;
                     }
                }
             }

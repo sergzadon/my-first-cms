@@ -59,7 +59,7 @@
               
               <li>
                 <label for="active">Active</label>
-                <INPUT NAME="active" TYPE="CHECKBOX" VALUE="1"
+                <INPUT NAME="ActiveArticle" TYPE="CHECKBOX" VALUE="1"
                     <?php
                         if ($results['article']->ActiveArticle == 1){
                            echo "checked";

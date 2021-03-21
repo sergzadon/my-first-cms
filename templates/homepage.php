@@ -37,7 +37,7 @@
                     <span class="subcategory">
                         Подкатегория 
                         <a href=".?action=subcategoryArchive&amp;subcategoryId=<?php echo $article->subcategoryId?>">
-                            <?php echo htmlspecialchars($results["subcategories"][$article->subcategoryId]->titleSubcat)?>
+                            <?php if($article->subcategoryId > 0)  echo htmlspecialchars($results["subcategories"][$article->subcategoryId]->titleSubcat)?>
                         </a>
                     </span>
             </h2>

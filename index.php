@@ -102,7 +102,7 @@ function subcategoryArchive()
     $results['articles'] = $data['results'];
     $results['totalRows'] = $data['totalRows'];
     
-    $data = subcategory::getList();
+    $data = Subcategory::getList();
 //    echo "<pre>";
 //    print_r($data['results']);
 //    echo "</pre>";
@@ -112,6 +112,21 @@ function subcategoryArchive()
     foreach ( $data['results'] as $subcategory ) {
         $results['subcategories'][$subcategory->id] = $subcategory;
     }
+    
+    $data = Category::getList();
+//    echo "<pre>";
+//    print_r($data['results']);
+//    echo "</pre>";
+//    die();
+    $results['categories'] = array();
+    
+    foreach ( $data['results'] as $category ) {
+        $results['categories'][$category->id] = $category;
+    }
+//    echo "<pre>";
+//    print_r($results['categories']);
+//    echo "</pre>";
+//    die();
 
     $results['pageHeading'] = $results['subcategoryId'] ?  $results['subcategoryId']->titleSubcat : "Subcategories Archive";
     $results['pageTitle'] = $results['pageHeading'] . " | Widget News";

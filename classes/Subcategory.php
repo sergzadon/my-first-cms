@@ -50,15 +50,29 @@ class Subcategory {
         
         if(isset($data["titleSubcat"])){
             $this->titleSubcat = $data["titleSubcat"];
-            
-        }
-        
-        if(isset($data["titleSubcat"])){
-            $this->titleSubcat = $data["titleSubcat"];
         }
     }
     
     
+    /**
+    * Возвращаем объект Subcategory, соответствующий заданному ID
+    *
+    * @param int ID категории
+    * @return subcategory|false Объект subcategory object или false, если запись не была найдена или в случае другой ошибки
+    */
+
+    public static function getSubcatId( $id ) 
+    {
+        $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        $sql = "SELECT * FROM subcategories WHERE id = :id";
+        $st = $connection->prepare( $sql );
+        $st->bindValue(":id", $id, PDO::PARAM_INT);
+        $st->execute();
+        $row = $st->fetch();
+        $connection = null;
+        if ($row) 
+            return new Subcategory($row);
+    }
     
     /**
     * Возвращаем все (или диапазон) объектов subcategories  из базы данных

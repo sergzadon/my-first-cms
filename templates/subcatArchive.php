@@ -15,10 +15,16 @@
             <span class="pubDate">
                 <?php echo date("j F Y", $article->publicationDate) ?>
             </span> 
-            <a href=".?action=viewSubcategory&amp;articleId=<?php echo $article->id ?>">
-            <?php echo htmlspecialchars($article->title) ?>
-            </a>
+            <a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>">
+                    <?php echo htmlspecialchars( $article->title )?>
+                </a>
             
+            <h4>
+            <div class="catSub">
+                Категория
+                <?php echo ($results['categories'][$article->categoryId]->name) ?>
+            </div> 
+            </h4>
             <?php if(!$results['subcategoryId'] && $article->subcategoryId) { ?>
                 <span class="subcategory">
                     in
@@ -32,13 +38,6 @@
             
             
         </h2> 
-        
-        
-        
-        
-        
-        
-        
     </li>
 <?php } ?>
 </ul>

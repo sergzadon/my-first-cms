@@ -47,7 +47,7 @@
                 <select name="subcategoryId">
                   <option value="0"<?php echo !$results['article']->subcategoryId ? " selected" : ""?>>(none)</option>
                 <?php foreach ( $results['subcategories'] as $subcategory ) { ?>
-                  <option value="<?php echo $subcategory->id?>"<?php echo ( $subcategory->id == $results['article']->subcategoryId ) ? " selected" : ""?>><?php echo htmlspecialchars( $subcategory->name )?></option>
+                  <option value="<?php echo $subcategory->id?>"<?php echo ( $subcategory->id == $results['article']->subcategoryId ) ? " selected" : ""?>><?php echo htmlspecialchars( $subcategory->titleSubcat)?></option>
                 <?php } ?>
                 </select>
               </li>
@@ -61,16 +61,13 @@
                 <label for="active">Active</label>
                 <INPUT NAME="active" TYPE="CHECKBOX" VALUE="1"
                     <?php
-                        if ($results['article']->ActiveArticle ==1){
+                        if ($results['article']->ActiveArticle == 1){
                            echo "checked";
                         }
                     ?> >  
-                
               </li>
  
             </ul>
-            
-            
             <div class="buttons">
               <input type="submit" name="saveChanges" value="Save Changes" />
               <input type="submit" formnovalidate name="cancel" value="Cancel" />

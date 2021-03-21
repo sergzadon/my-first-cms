@@ -198,6 +198,9 @@ function newArticle() {
 //            die();
         $data = Category::getList();
         $results['categories'] = $data['results'];
+        
+        $data = Subcategory::getList();
+        $results['subcategories'] = $data['results'];
         require( TEMPLATE_PATH . "/admin/editArticle.php" );
     }
 }
@@ -213,37 +216,62 @@ function editArticle() {
     $results = array();
     $results['pageTitle'] = "Edit Article";
     $results['formAction'] = "editArticle";
-    
-    
 
     if (isset($_POST['saveChanges']))  {
-       
+        $checkcategory = Subcategory::getSubcatId($_POST["subcategoryId"])->outerId;
+        if($checkcategory != $_POST["categoryId"]){
+            $results["errorMessage"] = "Данная подкатегория не соответствует категории";
+           
+            $results["article"] = new Article();
+//            echo "<pre>";
+//            print_r($article["article"]);
+//            echo "<pre>";
+//            die();
+ 
+            foreach($_POST as $key1 => $value1){
+                foreach($results["article"] as $key2 => $value2){
+                   if($key1 == $key2){
+                       $results["article"]-> $key2 = $_POST[$key1];
+                    }
+               }
+            }
+//             echo "<pre>";
+//            print_r($results["article"]);
+//            echo "<pre>";
+//            die();       
+                
+            
+  
         // Пользователь получил форму редактирования статьи: сохраняем изменения
         if ( !$article = Article::getById( (int)$_POST['articleId'] ) ) {
             header( "Location: admin.php?error=articleNotFound" );
             return;
         }
         
-    // добавил в задание 2
-    // меняем значение поля active в базе данных
-    if (!isset($_POST['active'])){
-        $_POST['active'] = 0;
-    }
-//        echo "<pre>";
-//        print_r($_POST);
-//        echo "<pre>";
-//        die();
-        $article->storeFormValues( $_POST );
-//        echo "<pre>";
-//        print_r($_POST);
-//        echo "<pre>";
-//        die();       
-        $article->update();
-        header( "Location: admin.php?status=changesSaved" );
-        
+        require(TEMPLATE_PATH . "/admin/editArticle.php");
+        }
+        else {
+          // добавил в задание 2
+        // меняем значение поля active в базе данных
+        if (!isset($_POST['active'])){
+            $_POST['active'] = 0;
+        }
+    //        echo "<pre>";
+    //        print_r($_POST);
+    //        echo "<pre>";
+    //        die();
+            $article->storeFormValues( $_POST );
+    //        echo "<pre>";
+    //        print_r($_POST);
+    //        echo "<pre>";
+    //        die();       
+            $article->update();
+            header( "Location: admin.php?status=changesSaved" );
+        }
     
-
-    } elseif ( isset( $_POST['cancel'] ) ) {
+    } 
+    
+    elseif ( isset( $_POST['cancel'] ) ) {
 
         // Пользователь отказался от результатов редактирования: возвращаемся к списку статей
         header( "Location: admin.php" );
@@ -253,6 +281,9 @@ function editArticle() {
         $results['article'] = Article::getById((int)$_GET['articleId']);
         $data = Category::getList();
         $results['categories'] = $data['results'];
+        
+        $data = Subcategory::getList();
+        $results['subcategories'] = $data['results'];   
         require(TEMPLATE_PATH . "/admin/editArticle.php");
     }
 
@@ -285,6 +316,11 @@ function listArticles() {
         $results['categories'][$category->id] = $category;
     }
     
+    $data = Subcategory::getList();
+    $results['subcategories'] = array();
+    foreach ($data['results'] as $subcategory) { 
+        $results['subcategories'][$subcategory->id] = $subcategory;
+    }
     $results['pageTitle'] = "Все статьи";
 
     if (isset($_GET['error'])) { // вывод сообщения об ошибке (если есть)

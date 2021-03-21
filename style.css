@@ -340,6 +340,9 @@ tr:hover {
   color: #fff;
 }
 
+
+}
+
 ul.ajax-load {
     margin-left:  0px;
     padding-left: 10px;
@@ -351,4 +354,5 @@ ul.ajax-load li {
     padding: 3px; /* Поля вокруг текста */
     font-size: 12px;
 }
-        
+  
+

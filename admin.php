@@ -38,6 +38,18 @@ switch ($action) {
     case 'deleteCategory':
         deleteCategory();
         break;
+    case 'allUsers':
+        allUsers();
+        break;
+    case 'newUser':
+        newUser;
+        break;
+    case 'editUser':
+        editUser();
+        break;
+    case 'deleteUser';
+        deleteUser();
+        break;  
     default:
         listArticles();
 }

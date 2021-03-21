@@ -31,7 +31,9 @@ try {
     
     // Подключаем Классы моделей (классы, отвечающие за работу с сущностями базы данных)
     require(CLASS_PATH . "/Article.php");
-    require(CLASS_PATH . "/Category.php");     
+    require(CLASS_PATH . "/Category.php");
+    require(CLASS_PATH . "/User.php");
+    require(CLASS_PATH . "/Subcategory.php");
 
 } catch (Exception $ex) {
     echo "При загрузке конфигураций возникла проблема!<br><br>";
@@ -42,7 +44,7 @@ try {
  * Создаст константы, хранящие настройки приложения
  * 
  * @param array $constatsNameAndValues массив, содержащий в качестве ключей имена констант, 
- *  которые нужно объявить, а в качестве значений -- знчения этих констант
+ *  которые нужно объявить, а в качестве значений -- знaчения этих констант
  */
 function defineConstants($constatsNameAndValues)
 {

@@ -23,6 +23,9 @@ function initApplication()
         case 'viewArticle':
           viewArticle();
           break;
+      case 'subcategoryArchive':
+          subcategoryArchive();
+          break;
         default:
           homepage();
     }
@@ -61,7 +64,7 @@ function archive()
  */
 function viewArticle() 
 {   
-    if ( !isset($_GET["articleId"]) || !$_GET["articleId"] ) {
+    if (!isset($_GET["articleId"]) || !$_GET["articleId"]) {
       homepage();
       return;
     }
@@ -80,28 +83,113 @@ function viewArticle()
     require(TEMPLATE_PATH . "/viewArticle.php");
 }
 
+function subcategoryArchive() 
+{
+    $results = [];
+    
+    $subcategoryId = ( isset( $_GET['subcategoryId'] ) && $_GET['subcategoryId'] ) ? (int)$_GET['subcategoryId'] : null;
+//    echo $_GET['subcategoryId'];
+    $results['subcategoryId'] = Subcategory::getById( $subcategoryId );
+//    echo "<pre>";
+//    print_r($results['subcategoryId']);
+//    echo "</pre>";
+//    die();
+    $data = Article::getList( 100000,null,"publicationDate DESC",false, $results['subcategoryId'] ? $results['subcategoryId']->id : null );
+//    echo "<pre>";
+//    print_r($data['results']);
+//    echo "</pre>";
+//    die();
+    $results['articles'] = $data['results'];
+    $results['totalRows'] = $data['totalRows'];
+    
+    $data = Subcategory::getList();
+//    echo "<pre>";
+//    print_r($data['results']);
+//    echo "</pre>";
+//    die();
+    $results['subcategories'] = array();
+    
+    foreach ( $data['results'] as $subcategory ) {
+        $results['subcategories'][$subcategory->id] = $subcategory;
+    }
+    
+    $data = Category::getList();
+//    echo "<pre>";
+//    print_r($data['results']);
+//    echo "</pre>";
+//    die();
+    $results['categories'] = array();
+    
+    foreach ( $data['results'] as $category ) {
+        $results['categories'][$category->id] = $category;
+    }
+//    echo "<pre>";
+//    print_r($results['categories']);
+//    echo "</pre>";
+//    die();
+
+    $results['pageHeading'] = $results['subcategoryId'] ?  $results['subcategoryId']->titleSubcat : "Subcategories Archive";
+    $results['pageTitle'] = $results['pageHeading'] . " | Widget News";
+    
+    require( TEMPLATE_PATH . "/subcatArchive.php" );
+}
+
+
+
+
 /**
  * Вывод домашней ("главной") страницы сайта
  */
 function homepage() 
-{
+{   
     $results = array();
-    $data = Article::getList(HOMEPAGE_NUM_ARTICLES);
+    $data = Article::getList(HOMEPAGE_NUM_ARTICLES,null,"publicationDate DESC",1);
     $results['articles'] = $data['results'];
     $results['totalRows'] = $data['totalRows'];
     
+//    echo "<pre>";
+//    print_r($results['articles']);
+//    echo "</pre>";
+//    die();
+    
     $data = Category::getList();
     $results['categories'] = array();
-    foreach ( $data['results'] as $category ) { 
-        $results['categories'][$category->id] = $category;
-    } 
+//    echo "<pre>";
+//    print_r($data['results']);
+//    echo "</pre>";
+//    die();
     
+    foreach ( $data['results'] as $category ) {
+        $results['categories'][$category->id] = $category;
+//    echo "<pre>";
+//    print_r($results['categories'][$category->id]);
+//    echo $category->id;
+//    echo "</pre>";
+
+    }
+    
+    $data = Subcategory::getList();
+    $results["subcategories"] = array();
+    
+    foreach($data["results"] as $subcategory){
+        $results["subcategories"][$subcategory->id] = $subcategory;
+    }
+//    echo "<pre>";
+//    print_r($results["subcategories"]);
+//    echo "</pre>";
+//    die();
     $results['pageTitle'] = "Простая CMS на PHP";
     
 //    echo "<pre>";
 //    print_r($data);
 //    echo "</pre>";
 //    die();
+   
+//    echo "<pre>";
+//    print_r($results);
+//    echo "</pre>";
+//    die();
+    
     
     require(TEMPLATE_PATH . "/homepage.php");
     

@@ -111,6 +111,15 @@ h3.categoryDescription {
   line-height: 2em;
 }
 
+.subcategory {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 60%;
+  color: #666;
+  display: block;
+  line-height: 2em; 
+}
+
 .category a {
   color: #999;
   text-decoration: underline;
@@ -341,8 +350,6 @@ tr:hover {
 }
 
 
-}
-
 ul.ajax-load {
     margin-left:  0px;
     padding-left: 10px;
@@ -354,5 +361,3 @@ ul.ajax-load li {
     padding: 3px; /* Поля вокруг текста */
     font-size: 12px;
 }
-  
-

@@ -35,8 +35,10 @@ class Category
       if ( isset( $data['name'] ) ) $this->name = preg_replace ( "/[^\.\,\-\_\'\"\@\?\!\:\$ a-zA-Z0-9()]/", "", $data['name'] );
       if ( isset( $data['description'] ) ) $this->description = preg_replace ( "/[^\.\,\-\_\'\"\@\?\!\:\$ a-zA-Z0-9()]/", "", $data['description'] );
     }*/
-
+    
+    
     public function __construct( $data=array() ) {
+      
       if ( isset( $data['id'] ) ) $this->id = (int) $data['id'];
       if ( isset( $data['name'] ) ) $this->name = $data['name'];
       if ( isset( $data['description'] ) ) $this->description = $data['description'];
@@ -74,7 +76,7 @@ class Category
         if ($row) 
             return new Category($row);
     }
-
+    
 
     /**
     * Возвращаем все (или диапазон) объектов Category из базы данных

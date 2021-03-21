@@ -17,6 +17,7 @@
               <th>Publication Date</th>
               <th>Article</th>
               <th>Category</th>
+              <th>Subcategory</th>
               <th>Active</th>
             </tr>
 
@@ -44,14 +45,26 @@
                 }?>
               </td>
               <td>
-                  <?php
-                       if($article->Activearticle) {
-                          echo "active";                
-                       }                      
-                       else {
-                          echo "not active";                      
-                       }
-                  ?>
+                <?php 
+                if(isset ($article->subcategoryId) && $article->subcategoryId > 0) {
+                    echo $results['subcategories'][$article->subcategoryId]->titleSubcat;                        
+                }
+                else {
+                echo "Без подкатегории";
+                }?>
+              </td>
+              <td>
+                <?php
+                    if($article->ActiveArticle == 1)
+                    {
+                        echo "Active";                        
+                    }
+                    else
+                    { 
+                        echo "Not active";
+                    }
+                
+                ?>
               </td>
             </tr>
 

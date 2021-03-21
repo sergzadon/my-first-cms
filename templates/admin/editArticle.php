@@ -1,7 +1,9 @@
 <?php include "templates/include/header.php" ?>
 <?php include "templates/admin/include/header.php" ?>
-<!--        <?php echo "<pre>";
+<!--            <?php echo "<pre>";
             print_r($results);
+            "<BR/>";
+            echo 345; 
             print_r($data);
         echo "<pre>"; ?> Данные о массиве $results и типе формы передаются корректно-->
 
@@ -40,6 +42,15 @@
                 <?php } ?>
                 </select>
               </li>
+              <li>
+                <label for="categoryId">Subcategory</label>
+                <select name="subcategoryId">
+                  <option value="0"<?php echo !$results['article']->subcategoryId ? " selected" : ""?>>(none)</option>
+                <?php foreach ( $results['subcategories'] as $subcategory ) { ?>
+                  <option value="<?php echo $subcategory->id?>"<?php echo ( $subcategory->id == $results['article']->subcategoryId ) ? " selected" : ""?>><?php echo htmlspecialchars( $subcategory->titleSubcat)?></option>
+                <?php } ?>
+                </select>
+              </li>
 
               <li>
                 <label for="publicationDate">Publication Date</label>
@@ -47,31 +58,26 @@
               </li>
               
               <li>
-                <label for="Activity">Active</label>
-                <input type="checkbox" name="active" value="1" id="Activity"
-                <?php
-                  if($results['article']->Activearticle == 1){
-                      echo 'checked = "checked"';
-                  }
-                  ?>     
-                >
-  
+
+                <label for="active">Active</label>
+                <INPUT NAME="active" TYPE="CHECKBOX" VALUE="1"
+                    <?php
+                        if ($results['article']->ActiveArticle == 1){
+                           echo "checked";
+                        }
+                    ?> >  
               </li>
 
             </ul>
-
             <div class="buttons">
               <input type="submit" name="saveChanges" value="Save Changes" />
               <input type="submit" formnovalidate name="cancel" value="Cancel" />
             </div>
-            
-            
-            
-         
-        
-            
-        
+
         </form>
+
+        
+        
 
     <?php if ($results['article']->id) { ?>
           <p><a href="admin.php?action=deleteArticle&amp;articleId=<?php echo $results['article']->id ?>" onclick="return confirm('Delete This Article?')">

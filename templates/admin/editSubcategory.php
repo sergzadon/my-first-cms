@@ -14,12 +14,12 @@
         <ul>
 
           <li>
-            <label for="name">Name subcategory</label>
+            <label for="name">Название подкатегории</label>
             <input type="text" name="name" id="name" placeholder="Name of the category" required autofocus maxlength="255" value="<?php echo htmlspecialchars( $results['subcategory']->titleSubcat)?>" />
           </li>
 
           <li>
-            <label for="description">Description</label>
+            <label for="description">Описание</label>
             <textarea name="description" id="description" placeholder="Brief description of the category" required maxlength="1000" style="height: 5em;"><?php echo htmlspecialchars( $results['category']->description )?></textarea>
           </li>
 

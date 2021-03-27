@@ -1,6 +1,6 @@
 <?php
 
-//phpinfo(); die();
+// phpinfo(); die();
 
 require("config.php");
 

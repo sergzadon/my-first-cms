@@ -81,7 +81,7 @@ class Subcategory {
     * @param string Optional Столбец, по которому сортируются подкатегории(по умолчанию = "name ASC")
     * @return Array|false Двух элементный массив: results => массив с объектами subcategory; totalRows => общее количество категорий
     */
-    public static function getList( $numRows=1000000, $order="description ASC" ) 
+    public static function getList( $numRows=1000000, $order="description ASC", $outerId = null ) 
     {
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD);
     //	    $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM categories
@@ -89,12 +89,20 @@ class Subcategory {
 
     //            $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM categories
     //	            ORDER BY " .$conn->query($order) . " LIMIT :numRows";
-
-    $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM subcategories
-            ORDER BY $order LIMIT :numRows";
+    
+    $outerClause = $outerId ? "WHERE outerId = :outerId" : "";
+    $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM subcategories $outerClause
+            ORDER BY $order  LIMIT :numRows";
+//            echo "<pre>";
+//            print_r($sql);
+//            echo "<pre>";
+//            die();
 
     $st = $conn->prepare( $sql );
     $st->bindValue( ":numRows", $numRows, PDO::PARAM_INT );
+    if($outerId ){
+        $st->bindValue(":outerId", $outerId , PDO::PARAM_INT ); 
+    }
     $st->execute();
     $list = array();
 

@@ -19,7 +19,6 @@
               <th>Category</th>
               <th>Subcategory</th>
               <th>Active</th>
-                           
             </tr>
 
 <!--<?php echo "<pre>"; print_r ($results['articles'][2]->publicationDate); echo "</pre>"; ?> Обращаемся к дате массива $results. Дата = 0 -->
@@ -46,7 +45,6 @@
                 }?>
               </td>
               <td>
-       
                 <?php 
                 if(isset ($article->subcategoryId) && $article->subcategoryId > 0) {
                     echo $results['subcategories'][$article->subcategoryId]->titleSubcat;                        
@@ -68,9 +66,7 @@
                 
                 ?>
               </td>
-
             </tr>
-            
 
     <?php } ?>
 

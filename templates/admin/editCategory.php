@@ -22,6 +22,16 @@
             <label for="description">Description</label>
             <textarea name="description" id="description" placeholder="Brief description of the category" required maxlength="1000" style="height: 5em;"><?php echo htmlspecialchars( $results['category']->description )?></textarea>
           </li>
+          
+          <li>
+            <label for="subcategory">Article subcategory</label>
+            <select name="subcategoryId">
+              <option value="0"<?php echo !$results['subcategories'][$results['category']->id]->titleSubcat? " selected" : ""?>>(none)</option>
+            <?php foreach ( $results['subcategories'] as $subcategory ) { ?>
+              <option value="0"<?php echo ( $subcategory->id ) ? " selected" : ""?>><?php echo htmlspecialchars( $subcategory->titleSubcat )?></option>
+            <?php } ?>
+            </select>
+          </li>
 
         </ul>
 

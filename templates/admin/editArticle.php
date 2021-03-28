@@ -77,9 +77,6 @@
 
         </form>
 
-        
-        
-
     <?php if ($results['article']->id) { ?>
           <p><a href="admin.php?action=deleteArticle&amp;articleId=<?php echo $results['article']->id ?>" onclick="return confirm('Delete This Article?')">
                   Delete This Article

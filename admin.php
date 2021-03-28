@@ -157,29 +157,15 @@ function newArticle() {
     $results['formAction'] = "newArticle";
 
     if ( isset( $_POST['saveChanges'] ) ) {
-//            echo "<pre>";
-//            print_r($results);
-//            print_r($_POST);
-//            echo "<pre>";
-//            die();
-//            В $_POST данные о статье сохраняются корректно
-        // Пользователь получает форму редактирования статьи: сохраняем новую статью
-        
+
         // добавил в задание 2
         $_POST["active"] = 1;
         //
         
         $article = new Article();
-//        echo "<pre>";
-//        print_r($article);
-//        print_r($_POST);
-//        echo "<pre>";
-//        die();
+
         $article->storeFormValues( $_POST );
-//            echo "<pre>";
-//            print_r($article);
-//            echo "<pre>";
-//            die();
+
 //            А здесь данные массива $article уже неполные(есть только Число от даты, категория и полный текст статьи)          
         $article->insert();
         header( "Location: admin.php?status=changesSaved" );
@@ -254,10 +240,6 @@ function editArticle() {
     if (isset($_POST['saveChanges']))  {
         $Article = new Article;
         $Article->storeFormValues( $_POST );
-//             echo "<pre>";
-//            print_r($Article);
-//            echo "<pre>";
-//            die();
       // Пользователь получил форму редактирования статьи: сохраняем изменения
         if ( !$article = Article::getById((int)$Article->id)) {
             header( "Location: admin.php?error=articleNotFound" );
@@ -282,7 +264,7 @@ function editArticle() {
         }   
                 // добавил в задание 2
           // меняем значение поля active в базе данных
-                if (($_POST['ActiveArticle'])) {
+                if (isset($_POST['ActiveArticle'])) {
                     $_POST['active'] = 1;
                 }
                 else{
@@ -430,7 +412,6 @@ function editCategory() {
           header( "Location: admin.php?action=listCategories&error=categoryNotFound" );
           return;
         }
-
         $category->storeFormValues( $_POST );
         $category->update();
         header( "Location: admin.php?action=listCategories&status=changesSaved" );
@@ -659,17 +640,38 @@ function editSubcategory() {
 
         $subcategory->storeFormValues( $_POST );
         $subcategory->update();
-        header( "Location: admin.php?action=listCategories&status=changesSaved" );
+        header( "Location: admin.php?action=listSubcategories&status=changesSaved" );
 
     } elseif ( isset( $_POST['cancel'] ) ) {
 
         // User has cancelled their edits: return to the category list
-        header( "Location: admin.php?action=listCategories" );
+        header( "Location: admin.php?action=listSubcategories" );
     } else {
 
         // User has not posted the category edit form yet: display the form
-        $results['category'] = Category::getById( (int)$_GET['categoryId'] );
-        require( TEMPLATE_PATH . "/admin/editCategory.php" );
+        $results['subcategory'] = Subcategory::getById( (int)$_GET['subcategoryId'] );
+        require( TEMPLATE_PATH . "/admin/editSubcategory.php" );
     }
 
 }
+
+
+function newSubcategory() {
+    $results  =array();
+    $results["pageTitle"] = "Edit Article Subcategory" ;
+    $results["formAction"] = "editSubcategory";
+    if(isset($POST["saveChange"])) {
+        $subcategory = new Subcategory ;
+        $subcategory->storeFormValues($_POST);
+        $subcategory->insert();
+        header("Location:admin.php?action=listSubcategories&status=changeSaved");
+    }
+    elseif(isset($_POST["cancel"])){
+        header("Location:admin.php?action=listSubcategories");
+    }
+    else{
+        $results["subcategory"] = new Subcategory;
+        require(TEMPLATE_PATH . "/admin/editSubcategory.php");
+    }
+}
+

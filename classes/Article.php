@@ -316,7 +316,24 @@ class Article
             ) 
         );
     }
+    
+    public function getAuthors() {
+        $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        $sql = "SELECT * FROM  users_articles LEFT JOIN users ON user_id = id 
+    WHERE users_articles.article_id = 1";
+        $study = $conn->prepare($sql);
+        $study->execute();
 
+        $row = $study->fetch();
+        $connection = null;
+        
+        while ($row = $study->fetch(PDO::FETCH_ASSOC)) {
+            $article = new Article($row);
+            $list[] = $article;;
+        }
+       
+    }         
+            
 
     /**
     * Вставляем текущий объект статьи в базу данных, устанавливаем его свойства.

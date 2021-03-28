@@ -15,12 +15,12 @@
 
           <li>
             <label for="name">Название подкатегории</label>
-            <input type="text" name="name" id="name" placeholder="Name of the category" required autofocus maxlength="255" value="<?php echo htmlspecialchars( $results['subcategory']->titleSubcat)?>" />
+            <input type="text" name="name" id="name" placeholder="Name of the subcategory" required autofocus maxlength="255" value="<?php echo htmlspecialchars( $results['subcategory']->titleSubcat)?>" />
           </li>
 
           <li>
             <label for="description">Описание</label>
-            <textarea name="description" id="description" placeholder="Brief description of the category" required maxlength="1000" style="height: 5em;"><?php echo htmlspecialchars( $results['category']->description )?></textarea>
+            <textarea name="description" id="description" placeholder="Brief description of the category" required maxlength="1000" style="height: 5em;"><?php echo htmlspecialchars( $results['subcategory']->description )?></textarea>
           </li>
 
         </ul>
@@ -32,8 +32,8 @@
 
       </form>
 
-    <?php if ( $results['category']->id ) { ?>
-          <p><a href="admin.php?action=deleteCategory&amp;categoryId=<?php echo $results['category']->id ?>" onclick="return confirm('Delete This Category?')">Delete This Category</a></p>
+    <?php if ( $results['subcategory']->id ) { ?>
+          <p><a href="admin.php?action=deleteSubcategory&amp;subcategoryId=<?php echo $results['subcategory']->id ?>" onclick="return confirm('Delete This Subcategory?')">Delete This Subcategory</a></p>
     <?php } ?>
 
 <?php include "templates/include/footer.php" ?>

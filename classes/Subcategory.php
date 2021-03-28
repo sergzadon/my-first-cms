@@ -74,6 +74,12 @@ class Subcategory {
             return new Subcategory($row);
     }
     
+     public function storeFormValues ( $params ) {
+
+      // Store all the parameters
+      $this->__construct( $params );
+    }
+    
     /**
     * Возвращаем все (или диапазон) объектов subcategories  из базы данных
     *
@@ -141,7 +147,21 @@ class Subcategory {
         }
     }
     
-    
+  public function update() {
+
+      // У объекта Subcategory  есть ID?
+      if ( is_null( $this->id ) ) trigger_error ( "Category::update(): Attempt to update a Category object that does not have its ID property set.", E_USER_ERROR );
+
+      // Обновляем категорию
+      $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+      $sql = "UPDATE subcategories SET titleSubcat=:titleSubcat, description=:description WHERE id = :id";
+      $study = $connection->prepare ( $sql );
+      $study->bindValue( ":titleSubcat", $this->titleSubcat, PDO::PARAM_STR );
+      $study->bindValue( ":description", $this->description, PDO::PARAM_STR );
+      $study->bindValue( ":id", $this->id, PDO::PARAM_INT );
+      $study->execute();
+      $connection = null;
+    }   
     
     
     

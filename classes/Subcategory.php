@@ -164,6 +164,22 @@ class Subcategory {
     }   
     
     
+    public function insert() {
+
+      // У объекта Subcategory уже есть ID?
+      if ( !is_null( $this->id ) ) trigger_error ( "Subcategory::insert(): Attempt to insert a Subcategory object that already has its ID property set (to $this->id).", E_USER_ERROR );
+
+      // Вставляем категорию
+      $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+      $sql = "INSERT INTO subcategories ( titleSubcat, description, outerId ) VALUES ( :titleSubcat, :description, :outerId)";
+      $study = $connection->prepare ( $sql );
+      $study->bindValue( ":titleSubcat", $this->titleSubcat, PDO::PARAM_STR );
+      $study->bindValue( ":description", $this->description, PDO::PARAM_STR );
+      $study->bindValue(":outerId",$this->outerId, PDO::PARAM_INT);
+      $study->execute();
+      $this->id = $connection->lastInsertId();
+      $connection = null;
+    }
     
     
     

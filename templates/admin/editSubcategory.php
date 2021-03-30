@@ -15,14 +15,28 @@
 
           <li>
             <label for="name">Название подкатегории</label>
-            <input type="text" name="name" id="name" placeholder="Name of the subcategory" required autofocus maxlength="255" value="<?php echo htmlspecialchars( $results['subcategory']->titleSubcat)?>" />
+            <input type="text" name="titleSubcat" id="name" placeholder="Name of the subcategory" required autofocus maxlength="255" value="<?php echo htmlspecialchars( $results['subcategory']->titleSubcat)?>" />
           </li>
 
           <li>
             <label for="description">Описание</label>
             <textarea name="description" id="description" placeholder="Brief description of the category" required maxlength="1000" style="height: 5em;"><?php echo htmlspecialchars( $results['subcategory']->description )?></textarea>
           </li>
-
+           <?php if(isset($category['name'])) { ?>
+                <div> <?php echo "Категория". " " ?> <h3><?php echo $category['name'] ?></h3></div>
+          <?php } 
+          else { ?>
+             <li>
+                <label for="categoryId">Категории</label>
+                <select name="outerId">
+                  <option value="0">(none)</option>
+                <?php foreach ( $results['categories'] as $category ) { ?>
+                  <option value="<?php echo $category->id?>"><?php echo htmlspecialchars( $category->name)?></option>
+                <?php } ?>
+                </select>
+              </li>  
+         <?php } ?>
+             
         </ul>
 
         <div class="buttons">

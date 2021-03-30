@@ -262,7 +262,8 @@ function editArticle() {
 //            die();
             require(TEMPLATE_PATH . "/admin/editArticle.php");
         }   
-                // добавил в задание 2
+        else {
+          // добавил в задание 2
           // меняем значение поля active в базе данных
                 if (isset($_POST['ActiveArticle'])) {
                     $_POST['active'] = 1;
@@ -272,8 +273,10 @@ function editArticle() {
                 }
                     $article->storeFormValues( $_POST );
                     $article->update();
-                    header( "Location: admin.php?status=changesSaved" );
-        } 
+                    header( "Location: admin.php?status=changesSaved" );  
+        }
+
+    } 
 
     elseif ( isset( $_POST['cancel'] ) ) {
 
@@ -373,7 +376,7 @@ function listCategories() {
 function newCategory() {
     echo "8";
     $results = array();
-    $results['pageTitle'] = "New Article Category";
+    $results['pageTitle'] = "New Category";
     $results['formAction'] = "newCategory";
 
     if ( isset( $_POST['saveChanges'] ) ) {
@@ -401,7 +404,7 @@ function newCategory() {
 function editCategory() {
     echo "9";
     $results = array();
-    $results['pageTitle'] = "Edit Article Category";
+    $results['pageTitle'] = "Edit Category";
     $results['formAction'] = "editCategory";
 
     if ( isset( $_POST['saveChanges'] ) ) {
@@ -650,6 +653,7 @@ function editSubcategory() {
 
         // User has not posted the category edit form yet: display the form
         $results['subcategory'] = Subcategory::getById( (int)$_GET['subcategoryId'] );
+        $category['name'] = Category::getByid($results['subcategory']->outerId)->name;
         require( TEMPLATE_PATH . "/admin/editSubcategory.php" );
     }
 
@@ -658,11 +662,16 @@ function editSubcategory() {
 
 function newSubcategory() {
     $results  =array();
-    $results["pageTitle"] = "Edit Article Subcategory" ;
-    $results["formAction"] = "editSubcategory";
-    if(isset($POST["saveChange"])) {
+    $results["pageTitle"] = "New Subcategory" ;
+    $results["formAction"] = "newSubcategory";
+    if(isset($_POST["saveChanges"])) {
         $subcategory = new Subcategory ;
+        $subcategory->outerId = 0;
         $subcategory->storeFormValues($_POST);
+//        echo "<pre>";
+//        print_r($subcategory);
+//        echo "<pre>";
+//        die();
         $subcategory->insert();
         header("Location:admin.php?action=listSubcategories&status=changeSaved");
     }
@@ -671,7 +680,21 @@ function newSubcategory() {
     }
     else{
         $results["subcategory"] = new Subcategory;
+                
+        $data = Category::getList();
+        $results['categories'] = $data['results'];
+//        echo "<pre>";
+//        print_r($results['categories']);
+//        echo "<pre>";
+//        die();
+        $data = Subcategory::getList();
+        $results["subcategories"] = $data["results"];
+//        echo "<pre>";
+//        print_r($results["subcategories"]->outerId );
+//        echo "<pre>";
+//        die();
         require(TEMPLATE_PATH . "/admin/editSubcategory.php");
+
     }
 }
 

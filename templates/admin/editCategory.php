@@ -24,7 +24,7 @@
           </li>
           
           <li>
-            <label for="subcategory">Article subcategory</label>
+            <label for="subcategory">subcategory</label>
             <select name="subcategoryId">
               <option value="0"<?php echo !$results['subcategories'][$results['category']->id]->titleSubcat? " selected" : ""?>>(none)</option>
             <?php foreach ( $results['subcategories'] as $subcategory ) { ?>

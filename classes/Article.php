@@ -78,9 +78,8 @@ class Article
     
     public function __construct($data=array())
     {
-      
-      echo "YES ";
-      if (isset($data['id'])) {
+
+      if (isset($data['id']) && $data['id'] > 0) {
           $this->id = (int) $data['id'];
       }
       
@@ -358,7 +357,7 @@ class Article
         $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
         $st->bindValue( ":summary", $this->summary, PDO::PARAM_STR );
         $st->bindValue( ":content", $this->content, PDO::PARAM_STR );
-        $st->bindValue( ":active", $this->Activearticle, PDO::PARAM_INT );
+        $st->bindValue( ":active", $this->ActiveArticle, PDO::PARAM_INT );
         $st->bindValue( ":subcategoryId", $this->subcategoryId, PDO::PARAM_INT );
         $st->execute();
         $this->id = $conn->lastInsertId();

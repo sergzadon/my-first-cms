@@ -51,6 +51,16 @@
                 <?php } ?>
                 </select>
               </li>
+              <li>
+                <label for="categoryId">Авторы</label>
+                <p><select multiple size="" name="authors[]">
+                <option value="0"<?php echo count($results["users"]) > 0 ? " selected" : ""?>>(none)</option>
+                <?php foreach ( $results["users"] as $user ) { ?>
+                  <option value="<?php echo $user->id?>"><?php echo htmlspecialchars($user->login)?></option>
+                <?php } ?>
+                </select>
+                </p
+              </li>
 
               <li>
                 <label for="publicationDate">Publication Date</label>

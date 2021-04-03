@@ -183,7 +183,18 @@ class Subcategory {
     
     
     
-    
+      public function delete() {
+
+      // У объекта Category  есть ID?
+      if ( is_null( $this->id ) ) trigger_error ( "Subcategory::delete(): Attempt to delete a Subcategory object that does not have its ID property set.", E_USER_ERROR );
+
+      // Удаляем категорию
+      $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+      $study = $connection->prepare ( "DELETE FROM subcategories WHERE id = :id LIMIT 1" );
+      $study->bindValue( ":id", $this->id, PDO::PARAM_INT );
+      $study->execute();
+      $connection = null;
+    }  
     
     
     

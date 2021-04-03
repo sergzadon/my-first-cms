@@ -27,7 +27,7 @@
           <?php } 
           else { ?>
              <li>
-                <label for="categoryId">Категории</label>
+                <label for="categoryId">Категория</label>
                 <select name="outerId">
                   <option value="0">(none)</option>
                 <?php foreach ( $results['categories'] as $category ) { ?>

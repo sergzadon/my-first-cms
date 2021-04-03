@@ -33,7 +33,7 @@
 
                 <?php } ?>
                 
-                <?php if (isset($article->subcategoryId)) { ?>    
+                <?php if (isset($article->subcategoryId) && $article->subcategoryId > 0) { ?>    
                     <span class="subcategory">
                         Подкатегория 
                         <a href=".?action=subcategoryArchive&amp;subcategoryId=<?php echo $article->subcategoryId?>">
@@ -44,11 +44,11 @@
                 <?php }
             
                 else { ?>
-                    <h4>
+                    <h2>
                         <span class="subcategory">
                             <?php echo "Без подкатегории"?>
                         </span>
-                    </h4>
+                    </h2>
                 <?php } ?>
            
 <!--            <p class="summary"><?php echo htmlspecialchars($article->fiftychars)?></p>-->

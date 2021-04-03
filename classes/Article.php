@@ -55,10 +55,17 @@ class Article
     public $subcategoryId = null;
     
     /**
+     *
+     * @var type array поле авторов 
+     */
+    public $authors = [];
+    
+    /**
     * Устанавливаем свойства с помощью значений в заданном массиве
     *
     * @param assoc Значения свойств
     */ 
+
 
    /*
     public function __construct( $data=array() ) {
@@ -118,6 +125,12 @@ class Article
        if(isset($data['subcategoryId'])) {
           $this->subcategoryId = (int)$data['subcategoryId'];
        } 
+       
+       if(isset($data["authors"])) {
+           foreach ($data["authors"] as $user_authors) {
+               $this->authors[] = $user_authors;
+           }
+       }
     }
         
 
@@ -375,12 +388,12 @@ class Article
               . "that does not have its ID property set.", E_USER_ERROR );
 
       // Обновляем статью
-      $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+      $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
       $sql = "UPDATE articles SET publicationDate=FROM_UNIXTIME(:publicationDate),
                categoryId=:categoryId,subcategoryId=:subcategoryId, title=:title, summary=:summary,
                content=:content, active=:active WHERE id = :id";
       
-      $st = $conn->prepare ( $sql );
+      $st = $connection->prepare ( $sql );
       $st->bindValue( ":publicationDate", $this->publicationDate, PDO::PARAM_INT );
       $st->bindValue( ":categoryId", $this->categoryId, PDO::PARAM_INT );
       $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
@@ -390,7 +403,18 @@ class Article
       $st->bindValue(":active", $this->ActiveArticle, PDO::PARAM_INT);
       $st->bindValue(":subcategoryId",$this->subcategoryId,PDO::PARAM_INT);
       $st->execute();
-      $conn = null;
+//      $connection = null;
+      
+      foreach($this->authors as $userId) {
+          $sql = "INSERT INTO users_articles(user_id, article_id) 
+              VALUES(:user_id, :article_id)";
+          $study = $connection->prepare($sql);
+          $study->bindValue(":user_id",$userId, PDO::PARAM_INT );
+          $study->bindValue(":article_id", $this->id, PDO::PARAM_INT);
+          $study->execute();
+      }
+      $connection = null;
+      
     }
 
 

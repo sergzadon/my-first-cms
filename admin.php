@@ -251,18 +251,18 @@ function editArticle() {
     $results['pageTitle'] = "Edit Article";
     $results['formAction'] = "editArticle";
     if (isset($_POST['saveChanges']))  {
-        $Article = new Article;
-        $Article->storeFormValues( $_POST );
+        $article = new Article;
+        $article->storeFormValues( $_POST );
 //            echo "<pre>";
 //            print_r($Article);
 //            echo "<pre>";
 //            die();
       // Пользователь получил форму редактирования статьи: сохраняем изменения
-        if ( !$article = Article::getById((int)$Article->id)) {
+        if ( !$article = Article::getById((int)$article->id)) {
             header( "Location: admin.php?error=articleNotFound" );
             return;
         }
-        if (Subcategory::getSubcatId($Article->subcategoryId )->outerId != $Article->categoryId && $Article->subcategoryId > 0 ) {
+        if (Subcategory::getSubcatId($article->subcategoryId )->outerId != $article->categoryId && $Article->subcategoryId > 0 ) {
             $results["errorMessage"] = "Данная подкатегория не соответствует категории";
             $data = Category::getList();
             $results['categories'] = $data['results'];
@@ -270,11 +270,14 @@ function editArticle() {
             $data = Subcategory::getList();
             $results['subcategories'] = $data['results'];
             
+            $data = User::getListUsers();
+            $results["users"] = $data["results"];
+            
             $results['article'] = new Article;
 //            (int)$_POST['articleId'] = $Article->id;
             $results['article']->storeFormValues( $_POST );
 //            echo "<pre>";
-//            print_r($postArticle);
+//            print_r($results['article']);
 //            echo "<pre>";
 //            die();
             require(TEMPLATE_PATH . "/admin/editArticle.php");
@@ -288,9 +291,17 @@ function editArticle() {
                 else{
                    $_POST['active'] = 0; 
                 }
-                    $article->storeFormValues( $_POST );
-                    $article->update();
-                    header( "Location: admin.php?status=changesSaved" );  
+//            echo "<pre>";
+//            print_r($_POST["authors"]);
+//            echo "<pre>";
+//            die();
+                $article->storeFormValues( $_POST );
+//            echo "<pre>";
+//            print_r($article);
+//            echo "<pre>";
+//            die();
+                $article->update();
+                header( "Location: admin.php?status=changesSaved" );  
         }
 
     } 

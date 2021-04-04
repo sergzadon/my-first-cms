@@ -80,6 +80,12 @@ function viewArticle()
     $results['category'] = Category::getById($results['article']->categoryId);
     $results['pageTitle'] = $results['article']->title . " | Простая CMS";
     
+    $authors = Article::getAuthors($articleId) ;
+    echo "<pre>";
+    print_r($authors);
+    echo "</pre>";
+    die();
+    
     require(TEMPLATE_PATH . "/viewArticle.php");
 }
 
@@ -147,11 +153,6 @@ function homepage()
     $results['articles'] = $data['results'];
     $results['totalRows'] = $data['totalRows'];
     
-//    echo "<pre>";
-//    print_r($results['articles']);
-//    echo "</pre>";
-//    die();
-    
     $data = Category::getList();
     $results['categories'] = array();
 //    echo "<pre>";
@@ -179,17 +180,7 @@ function homepage()
 //    echo "</pre>";
 //    die();
     $results['pageTitle'] = "Простая CMS на PHP";
-    
-//    echo "<pre>";
-//    print_r($data);
-//    echo "</pre>";
-//    die();
-   
-//    echo "<pre>";
-//    print_r($results);
-//    echo "</pre>";
-//    die();
-    
+
     
     require(TEMPLATE_PATH . "/homepage.php");
     

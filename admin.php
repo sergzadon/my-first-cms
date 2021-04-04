@@ -262,7 +262,9 @@ function editArticle() {
             header( "Location: admin.php?error=articleNotFound" );
             return;
         }
-        if (Subcategory::getSubcatId($article->subcategoryId )->outerId != $article->categoryId && $Article->subcategoryId > 0 ) {
+        if (Subcategory::getSubcatId(
+                $article->subcategoryId )->outerId != $article->categoryId 
+                && $article->subcategoryId > 0 ) {
             $results["errorMessage"] = "Данная подкатегория не соответствует категории";
             $data = Category::getList();
             $results['categories'] = $data['results'];
@@ -274,7 +276,7 @@ function editArticle() {
             $results["users"] = $data["results"];
             
             $results['article'] = new Article;
-//            (int)$_POST['articleId'] = $Article->id;
+
             $results['article']->storeFormValues( $_POST );
 //            echo "<pre>";
 //            print_r($results['article']);
@@ -296,10 +298,7 @@ function editArticle() {
 //            echo "<pre>";
 //            die();
                 $article->storeFormValues( $_POST );
-//            echo "<pre>";
-//            print_r($article);
-//            echo "<pre>";
-//            die();
+                
                 $article->update();
                 header( "Location: admin.php?status=changesSaved" );  
         }
@@ -683,7 +682,9 @@ function editSubcategory() {
 
         // User has not posted the category edit form yet: display the form
         $results['subcategory'] = Subcategory::getById( (int)$_GET['subcategoryId'] );
-        $category['name'] = Category::getByid($results['subcategory']->outerId)->name;
+        
+        $data = Category::getList();
+        $results["categories"] = $data["results"];
         require( TEMPLATE_PATH . "/admin/editSubcategory.php" );
     }
 

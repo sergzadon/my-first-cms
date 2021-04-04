@@ -18,6 +18,7 @@
               <th>Article</th>
               <th>Category</th>
               <th>Subcategory</th>
+              <th>Авторы</th>
               <th>Active</th>
             </tr>
 
@@ -52,6 +53,9 @@
                 else {
                 echo "Без подкатегории";
                 }?>
+              </td>
+              <td>
+                  
               </td>
               <td>
                 <?php

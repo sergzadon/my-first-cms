@@ -24,13 +24,13 @@
           </li>
           <?php if($_GET["action"] == "editCategory" && !empty($results['subcategories'])) { ?>
           <li>
-            <label for="subcategory">Подкатегории</label>
-            <select name="subcategoryId">
-              <option value="0">(none)</option>
-            <?php foreach ( $results['subcategories'] as $subcategory ) { ?>
-              <option value="0"<?php echo ( $subcategory->id ) ? " selected" : ""?>><?php echo htmlspecialchars( $subcategory->titleSubcat )?></option>
-            <?php } ?>
-            </select>
+              <span> Подкатегории </span>
+              <div>
+                  <?php foreach ( $results['subcategories'] as $subcategory ) { 
+                      echo htmlspecialchars( $subcategory->titleSubcat ). " ";
+                  }
+              ?> 
+              </div>
           </li>
          <?php } 
          else { ?>

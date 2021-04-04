@@ -22,10 +22,6 @@
             <label for="description">Описание</label>
             <textarea name="description" id="description" placeholder="Brief description of the category" required maxlength="1000" style="height: 5em;"><?php echo htmlspecialchars( $results['subcategory']->description )?></textarea>
           </li>
-           <?php if(isset($category['name'])) { ?>
-                <div> <?php echo "Категория". " " ?> <h3><?php echo $category['name'] ?></h3></div>
-          <?php } 
-          else { ?>
              <li>
                 <label for="categoryId">Категория</label>
                 <select name="outerId">
@@ -35,7 +31,6 @@
                 <?php } ?>
                 </select>
               </li>  
-         <?php } ?>
              
         </ul>
 

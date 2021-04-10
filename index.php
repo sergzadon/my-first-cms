@@ -23,9 +23,10 @@ function initApplication()
         case 'viewArticle':
           viewArticle();
           break;
-      case 'subcategoryArchive':
-          subcategoryArchive();
-          break;
+        case 'subcategoryArchive':
+            subcategoryArchive();
+            break;
+
         default:
           homepage();
     }
@@ -80,12 +81,20 @@ function viewArticle()
     $results['category'] = Category::getById($results['article']->categoryId);
     $results['pageTitle'] = $results['article']->title . " | Простая CMS";
     
-    $authors = Article::getAuthors($articleId) ;
-    echo "<pre>";
-    print_r($authors);
-    echo "</pre>";
-    die();
+    $listAuthors = Article::getAuthors($articleId) ;
+//    echo "<pre>";
+//    print_r($listAuthors);
+//    echo "</pre>";
+//    die();
+    $results['authors'] = array();
     
+    foreach($listAuthors as $authors) {
+       $results['authors'][$authors->id] = $authors;
+    }
+//    echo "<pre>";
+//    print_r($results['authors']);
+//    echo "</pre>";
+//    die();
     require(TEMPLATE_PATH . "/viewArticle.php");
 }
 
@@ -101,18 +110,12 @@ function subcategoryArchive()
 //    echo "</pre>";
 //    die();
     $data = Article::getList( 100000,null,"publicationDate DESC",false, $results['subcategoryId'] ? $results['subcategoryId']->id : null );
-//    echo "<pre>";
-//    print_r($data['results']);
-//    echo "</pre>";
-//    die();
+
     $results['articles'] = $data['results'];
     $results['totalRows'] = $data['totalRows'];
     
     $data = Subcategory::getList();
-//    echo "<pre>";
-//    print_r($data['results']);
-//    echo "</pre>";
-//    die();
+
     $results['subcategories'] = array();
     
     foreach ( $data['results'] as $subcategory ) {
@@ -120,10 +123,7 @@ function subcategoryArchive()
     }
     
     $data = Category::getList();
-//    echo "<pre>";
-//    print_r($data['results']);
-//    echo "</pre>";
-//    die();
+
     $results['categories'] = array();
     
     foreach ( $data['results'] as $category ) {
@@ -151,6 +151,10 @@ function homepage()
     $results = array();
     $data = Article::getList(HOMEPAGE_NUM_ARTICLES,null,"publicationDate DESC",1);
     $results['articles'] = $data['results'];
+//        echo "<pre>";
+//    print_r($results['articles']);
+//    echo "</pre>";
+//    die();
     $results['totalRows'] = $data['totalRows'];
     
     $data = Category::getList();
@@ -185,3 +189,4 @@ function homepage()
     require(TEMPLATE_PATH . "/homepage.php");
     
 }
+

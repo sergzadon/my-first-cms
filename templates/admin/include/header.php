@@ -6,5 +6,6 @@
         <a href="admin.php?action=listSubcategories">Edit Subcategories</a>
         <a href="admin.php?action=logout"?>Log Out</a>
         <a href="admin.php?action=listUsers"?>Users</a>
+        <a href="admin.php?action=listAuthors"?>Авторы</a>
     </p>
 </div>

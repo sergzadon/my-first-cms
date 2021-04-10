@@ -62,6 +62,12 @@ switch ($action) {
     case 'deleteSubcategory':
         deleteSubcategory();
         break;
+    case 'listAuthors':
+        listAuthors();
+        break;
+    case 'viewAuthor':
+        viewAuthor();
+        break;
     default:
         listArticles();
 }
@@ -506,7 +512,7 @@ function listUsers() {
 //        print_r($results['users']);
 //        echo "<pre>";
 //        die();
-    
+//    
     $results['pageTitle'] = "Все пользователи";
 
     if (isset($_GET['error'])) { // вывод сообщения об ошибке (если есть)
@@ -739,5 +745,53 @@ function newSubcategory() {
         header( "Location: admin.php?action=listSubcategories&status=subategoryDeleted" );
     }
 
+function listAuthors() {
+    $results = array();
+    $data = User::getAuthors();
+    $results['users'] = $data['results'];
+//        echo "<pre>";
+//        print_r($data);
+//        echo "<pre>";
+//        die();
+    $results['totalRows'] = $data['totalRows'];
+    $results['pageTitle'] = "Все пользователи";
+
+    if (isset($_GET['error'])) { // вывод сообщения об ошибке (если есть)
+        if ($_GET['error'] == "userNotFound") 
+            $results['errorMessage'] = "Error: User not found.";
+    }
+
+    if (isset($_GET['status'])) { // вывод сообщения (если есть)
+        if ($_GET['status'] == "changesSaved") {
+            $results['statusMessage'] = "Your changes have been saved.";
+        }
+        if ($_GET['status'] == "userDeleted")  {
+            $results['statusMessage'] = "User deleted.";
+        }
+    }
+    require(TEMPLATE_PATH . "/admin/listAuthors.php" );
+}
+
+function viewAuthor() 
+{
+    $results = array();
+    $userId = (int)$_GET["userId"];
+    $data = Article::getAuthor($userId);
+    $nameAuthor = User::getById($userId)->login;
+    
+    $results['pageTitle'] = "Автор";
+    $results['books'] = $data["results"];
+    $results['totalRows'] = $data['totalRows'];
+    
+    
+//    foreach($data["results"] as $books) {
+//       $results['books'][$authors->id] = $books;
+//    }
+//    echo "<pre>";
+//    print_r($data);
+//    echo "</pre>";
+//    die();
+    require(TEMPLATE_PATH . "/viewAuthor.php");
+}
 
 

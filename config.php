@@ -8,7 +8,7 @@ try {
     
     // Настройки БД и остальных параметров будем хранить в массиве
     $CmsConfiguration = array(); 
-    $CmsConfiguration["DB_DSN"] = "mysql:host=localhost;dbname=myfirstcms;charset=utf8;" ;
+    $CmsConfiguration["DB_DSN"] = "mysql:host=localhost;dbname=cms;charset=utf8;" ;
 
     $CmsConfiguration["DB_USERNAME"] = "root";
     $CmsConfiguration["DB_PASSWORD"] = "qwe123";

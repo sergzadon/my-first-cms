@@ -438,4 +438,63 @@ class Article
       $conn = null;
     }
 
+    /**
+     * 
+     * @param type $id выводим статьи автора 
+     */
+    public static function getAuthor($id){
+        $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        $sql =  "SELECT SQL_CALC_FOUND_ROWS *, UNIX_TIMESTAMP(publicationDate) 
+                AS publicationDate  FROM users_articles LEFT JOIN 
+                articles ON article_id = id WHERE users_articles .user_id = :id";
+        
+        $study = $connection->prepare($sql);
+        $study->bindValue(":id", $id, PDO::PARAM_INT);
+        $study->execute();  
+        
+        $result = array();
+        while ($row = $study->fetch()) {
+            $list = array();
+            $list2 = array();
+            $list3 = array();
+            $article = new Article($row);
+            $list[] = $article;
+            foreach ($list as $name){
+                $cat = $name->categoryId;
+                $sub = $name->subcategoryId;
+                $sql2 =  "SELECT * FROM categories WHERE :id = $cat";
+                $st = $connection->prepare($sql2);
+                $st->bindValue( ":id", $cat, PDO::PARAM_INT );
+                $st->execute();
+                $row = $st->fetch();
+                $category = new Category($row);
+                $list2[] = $category;
+                $sql3 =  "SELECT * FROM subcategories WHERE :id = $sub";
+                $st = $connection->prepare($sql3);
+                $st->bindValue( ":id", $sub, PDO::PARAM_INT );
+                $st->execute();
+                $row = $st->fetch();
+                $subcategory = new Subcategory($row);
+                $list3[] = $subcategory;
+                $result[] = array_merge($list, $list2, $list3);
+            }
+            
+        }
+        
+        $sql = "SELECT FOUND_ROWS() AS totalRows";
+        $totalRows = $connection->query($sql)->fetch();
+//            echo "<pre>";
+//            print_r($totalRows);
+//            echo "</pre>";
+//            die();
+        $connection = null;
+        
+        return (array(
+            "results" => $result, 
+            "totalRows" => $totalRows[0]
+            ) 
+        );
+//        return $list;
+         
+    }
 }

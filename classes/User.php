@@ -106,7 +106,7 @@ class User {
         while ($row = $st->fetch()) {
           $user = new User($row);
           $list[] = $user;
-         }
+        }
          
         $sql = "SELECT FOUND_ROWS() AS totalRows";
         $totalRows = $connection->query($sql)->fetch();
@@ -246,6 +246,49 @@ class User {
       $st->bindValue( ":id", $this->id, PDO::PARAM_INT );
       $st->execute();
       $conn = null;
+    }
+    
+    /**
+     *  вывод авторов статей
+     */
+    public static function getAuthors() {
+        $connection = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $sql = "SELECT DISTINCT user_id FROM  users_articles";
+;
+        $st = $connection->prepare($sql);
+
+        $listAuthors = array();
+        $st->execute();
+
+        while ($row = $st->fetch()) {
+          $listAuthors[] = $row["user_id"];
+        }
+         
+        $sql = "SELECT FOUND_ROWS() AS totalRows";
+        $totalRows = $connection->query($sql)->fetch();
+
+        $list = array();
+        $sql2 = "SELECT SQL_CALC_FOUND_ROWS *, UNIX_TIMESTAMP(registrationDate) 
+                AS registrationDate  FROM  users WHERE id = :id";
+        $st = $connection->prepare($sql2);
+        $i = 0;
+        while($i < $totalRows[0]) {
+           $st->bindValue( ":id", $listAuthors[$i], PDO::PARAM_INT );
+           $st->execute();
+           $row = $st->fetch();
+           $user = new User($row);
+           $list[] = $user;
+           $i += 1;
+          
+        }
+        $connection = null;
+
+        return (array(
+            "results" => $list, 
+            "totalRows" => $totalRows[0]
+            ) 
+        );
+        
     }
 }
 

@@ -1,6 +1,7 @@
 <?php include "templates/include/header.php" ?>
 
-<h1><?php echo htmlspecialchars ($results['pageHeading'])?> </h1>
+<h1> Подкатегория </h1>
+<h2><?php echo htmlspecialchars ($results['pageHeading'])?> </h2>
 <?php if($results["subcategories"]){ ?>
 <h3 class="subcategoriesDescription"> <?php echo htmlspecialchars
 ($results['subcategoryId']->description) ?> </h3> 

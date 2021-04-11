@@ -258,21 +258,24 @@ function editArticle() {
     $results['formAction'] = "editArticle";
     if (isset($_POST['saveChanges']))  {
         $article = new Article;
+        if (isset($_POST['ActiveArticle'])) {
+            $_POST['active'] = 1;
+        }
+        else{
+           $_POST['active'] = 0; 
+        }
+
         $article->storeFormValues( $_POST );
-//            echo "<pre>";
-//            print_r($article->subcategoryId);
+//           echo "<pre>";
+//            print_r($article);
 //            echo "<pre>";
 //            die();
       // Пользователь получил форму редактирования статьи: сохраняем изменения
-        if ( !$article = Article::getById((int)$article->id)) {
-            header( "Location: admin.php?error=articleNotFound" );
-            return;
-        }
-            echo "<pre>";
-            print_r(
-                $article->subcategoryId);
-            echo "<pre>";
-            die();
+//        if ( !$article = Article::getById((int)$article->id)) {
+//            header( "Location: admin.php?error=articleNotFound" );
+//            return;
+//        }
+
         if (Subcategory::getSubcatId(
                 $article->subcategoryId )->outerId != $article->categoryId 
                 ) {
@@ -308,7 +311,11 @@ function editArticle() {
 //            print_r($_POST["authors"]);
 //            echo "<pre>";
 //            die();
-                $article->storeFormValues( $_POST );
+//               $article->storeFormValues( $_POST );
+//            echo "<pre>";
+//            print_r($article);
+//            echo "<pre>";
+//            die();
                 
                 $article->update();
                 header( "Location: admin.php?status=changesSaved" );  
@@ -777,11 +784,16 @@ function listAuthors() {
     require(TEMPLATE_PATH . "/admin/listAuthors.php" );
 }
 
+
 function viewAuthor() 
 {
     $results = array();
     $userId = (int)$_GET["userId"];
     $data = Article::getAuthor($userId);
+//            echo "<pre>";
+//            print_r($data["results"]);
+//            echo "</pre>";
+//            die();
     $nameAuthor = User::getById($userId)->login;
     
     $results['pageTitle'] = "Автор";

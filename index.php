@@ -83,10 +83,7 @@ function viewArticle()
     
 //    $listAuthors = Article::getAuthors($articleId) ;
     $listAuthors = getAuthors($articleId) ;
-//    echo "<pre>";
-//    print_r($listAuthors);
-//    echo "</pre>";
-//    die();
+
     $results['authors'] = array();
     
     foreach($listAuthors as $authors) {

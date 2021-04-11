@@ -410,9 +410,9 @@ class Article
 //      $connection = null;
       
       foreach($this->authors as $userId) {
-          $sql = "INSERT INTO users_articles(user_id, article_id) 
+          $sql2 = "INSERT INTO users_articles(user_id, article_id) 
               VALUES(:user_id, :article_id)";
-          $study = $connection->prepare($sql);
+          $study = $connection->prepare($sql2);
           $study->bindValue(":user_id",$userId, PDO::PARAM_INT );
           $study->bindValue(":article_id", $this->id, PDO::PARAM_INT);
           $study->execute();
@@ -451,25 +451,30 @@ class Article
         $study = $connection->prepare($sql);
         $study->bindValue(":id", $id, PDO::PARAM_INT);
         $study->execute();  
-        
+        $i = 0;
         $result = array();
         while ($row = $study->fetch()) {
             $list = array();
             $list2 = array();
             $list3 = array();
             $article = new Article($row);
+            $cat = $article->categoryId;
+            $sub = $article->subcategoryId;
             $list[] = $article;
+            echo $i += 1;
+//            echo "<pre>";
+//            print_r($article);
+//            echo "</pre>";
+//            die();
             foreach ($list as $name){
-                $cat = $name->categoryId;
-                $sub = $name->subcategoryId;
-                $sql2 =  "SELECT * FROM categories WHERE :id = $cat";
+                $sql2 =  "SELECT * FROM categories WHERE id = :id";
                 $st = $connection->prepare($sql2);
                 $st->bindValue( ":id", $cat, PDO::PARAM_INT );
                 $st->execute();
                 $row = $st->fetch();
                 $category = new Category($row);
                 $list2[] = $category;
-                $sql3 =  "SELECT * FROM subcategories WHERE :id = $sub";
+                $sql3 =  "SELECT * FROM subcategories WHERE :id = id";
                 $st = $connection->prepare($sql3);
                 $st->bindValue( ":id", $sub, PDO::PARAM_INT );
                 $st->execute();

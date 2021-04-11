@@ -260,7 +260,7 @@ function editArticle() {
         $article = new Article;
         $article->storeFormValues( $_POST );
 //            echo "<pre>";
-//            print_r($Article);
+//            print_r($article->subcategoryId);
 //            echo "<pre>";
 //            die();
       // Пользователь получил форму редактирования статьи: сохраняем изменения
@@ -268,9 +268,14 @@ function editArticle() {
             header( "Location: admin.php?error=articleNotFound" );
             return;
         }
+            echo "<pre>";
+            print_r(
+                $article->subcategoryId);
+            echo "<pre>";
+            die();
         if (Subcategory::getSubcatId(
                 $article->subcategoryId )->outerId != $article->categoryId 
-                && $article->subcategoryId > 0 ) {
+                ) {
             $results["errorMessage"] = "Данная подкатегория не соответствует категории";
             $data = Category::getList();
             $results['categories'] = $data['results'];

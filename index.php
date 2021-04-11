@@ -81,7 +81,8 @@ function viewArticle()
     $results['category'] = Category::getById($results['article']->categoryId);
     $results['pageTitle'] = $results['article']->title . " | Простая CMS";
     
-    $listAuthors = Article::getAuthors($articleId) ;
+//    $listAuthors = Article::getAuthors($articleId) ;
+    $listAuthors = getAuthors($articleId) ;
 //    echo "<pre>";
 //    print_r($listAuthors);
 //    echo "</pre>";

@@ -40,6 +40,12 @@
                             <?php if($article->subcategoryId > 0)  echo htmlspecialchars($results["subcategories"][$article->subcategoryId]->titleSubcat)?>
                         </a>
                     </span>
+                <span class="subcategory">
+                        Авторы 
+                        <a href=".?action=subcategoryArchive&amp;subcategoryId=<?php echo $article->subcategoryId?>">
+                            <?php if($article->subcategoryId > 0)  echo htmlspecialchars($results["subcategories"][$article->subcategoryId]->titleSubcat)?>
+                        </a>
+                    </span>
             </h2>
                 <?php }
             

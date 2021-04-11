@@ -69,7 +69,7 @@ class Subcategory {
         $st->bindValue(":id", $id, PDO::PARAM_INT);
         $st->execute();
         $row = $st->fetch();
-        $connection = null;
+//        $connection = null;
         if ($row) 
             return new Subcategory($row);
     }

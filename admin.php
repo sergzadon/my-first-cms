@@ -65,7 +65,7 @@ switch ($action) {
     case 'listAuthors':
         listAuthors();
         break;
-    case 'viewAuthor':
+    case 'viewAuthors':
         viewAuthor();
         break;
     default:
@@ -342,6 +342,8 @@ function editArticle() {
         
         $data = User::getListUsers();
         $results["users"] = $data["results"];
+        
+        $Authors = new User;
         require(TEMPLATE_PATH . "/admin/editArticle.php");
     }
 
@@ -380,6 +382,7 @@ function listArticles() {
     foreach ($data['results'] as $subcategory) { 
         $results['subcategories'][$subcategory->id] = $subcategory;
     }
+    $Authors = new User();
     $results['pageTitle'] = "Все статьи";
 
     if (isset($_GET['error'])) { // вывод сообщения об ошибке (если есть)
@@ -594,8 +597,6 @@ function editUser() {
     $results = array();
     $results['pageTitle'] = "Edit User";
     $results['formAction'] = "editUser";
-    
-    
 
     if (isset($_POST['saveChanges']))  {
        
@@ -759,7 +760,7 @@ function newSubcategory() {
 
 function listAuthors() {
     $results = array();
-    $data = User::getAuthors();
+    $data = User::getAllAuthors();
     $results['users'] = $data['results'];
 //        echo "<pre>";
 //        print_r($data);
@@ -789,9 +790,11 @@ function viewAuthor()
 {
     $results = array();
     $userId = (int)$_GET["userId"];
+//    $article = new Article();
+//    $article->getAuthors();
     $data = Article::getAuthor($userId);
 //            echo "<pre>";
-//            print_r($data["results"]);
+//            print_r($data);
 //            echo "</pre>";
 //            die();
     $nameAuthor = User::getById($userId)->login;
@@ -808,7 +811,7 @@ function viewAuthor()
 //    print_r($data);
 //    echo "</pre>";
 //    die();
-    require(TEMPLATE_PATH . "/viewAuthor.php");
+    require(TEMPLATE_PATH . "/admin/viewAuthor.php");
 }
 
 

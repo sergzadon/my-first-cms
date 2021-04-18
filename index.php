@@ -81,8 +81,13 @@ function viewArticle()
     $results['category'] = Category::getById($results['article']->categoryId);
     $results['pageTitle'] = $results['article']->title . " | Простая CMS";
     
-//    $listAuthors = Article::getAuthors($articleId) ;
-    $listAuthors = getAuthors($articleId) ;
+    $Authors = new User();
+    $listAuthors = $Authors->getAuthors($articleId);
+//        echo "<pre>";
+//    print_r($listAuthors);
+//    echo "</pre>";
+//    die();
+//    $listAuthors = getAuthors($articleId) ;
 
     $results['authors'] = array();
     
@@ -159,6 +164,12 @@ function homepage()
     $results['categories'] = array();
 //    echo "<pre>";
 //    print_r($data['results']);
+//    echo "</pre>";
+//    die();
+    $Authors = new User();
+//    $listAuthors = $Authors->getAuthors($articleId);
+//        echo "<pre>";
+//    print_r($Authors->getAuthors($article->id));
 //    echo "</pre>";
 //    die();
     

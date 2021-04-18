@@ -12,19 +12,26 @@
                  <span class="pubDate">
                      <?php echo date('j F Y', $books[$i]->publicationDate)?>
                  </span>
+             </h2>
+             <h3>
                  <span class="pubDate">
                      Категория
                      <?php echo ($books[$j]->name)?>
                  </span>
+             </h3>
+            <h3>
                  <span class="pubDate">
                      Подкатегория
                      <?php echo ($books[$k]->titleSubcat)?>
                  </span>
+            </h3>
+            
                  <div><a href=".?action=viewArticle&amp;articleId=<?php echo $books[$i]->id?>">
-                     <?php echo htmlspecialchars( $books[$i]->title )?>
+                     <h2><?php echo htmlspecialchars( $books[$i]->title )?></h2>
                  </a>
                  </div>
-             </h2>
+            
+             
            <p class="summary"><?php echo htmlspecialchars( $books[$i]->summary )?></p>
          </li>
 

@@ -249,9 +249,9 @@ class User {
     }
     
     /**
-     *  вывод авторов статей
+     *  вывод  всех авторов статей
      */
-    public static function getAuthors() {
+    public static function getAllAuthors() {
         $connection = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $sql = "SELECT DISTINCT user_id FROM  users_articles";
 ;
@@ -290,6 +290,32 @@ class User {
         );
         
     }
+    
+    /**
+     * выводим авторов одной статьи
+     */
+    public function getAuthors($id) {
+        $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        $sql = "SELECT * FROM  users_articles LEFT JOIN users ON user_id = id 
+               WHERE users_articles.article_id = :id ";
+        $study = $connection->prepare($sql);
+//        $study->bindValue(":id", $this->id, PDO::PARAM_INT);
+        $study->bindValue(":id", $id, PDO::PARAM_INT);
+        $study->execute();  
+        
+        $list = array();
+        
+        while ($row = $study->fetch()) {
+            $article = new User($row);
+            $list[] = $article;
+        }
+//        echo "<pre>";
+//    print_r($id);
+//    echo "</pre>";
+//    die();
+        return $list;
+      
+    }    
 }
 
 

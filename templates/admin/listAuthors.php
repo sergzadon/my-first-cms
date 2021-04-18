@@ -24,7 +24,7 @@
             </tr>
         
     <?php foreach ( $results['users'] as $user ) { ?>
-            <tr onclick="location='admin.php?action=viewAuthor&amp;userId=<?php echo $user->id?>'">
+            <tr onclick="location='admin.php?action=viewAuthors&amp;userId=<?php echo $user->id?>'">
               <td><?php echo date('j M Y', $user->registrationDate)?></td>
               <td><?php echo $user->login ?></td>
 

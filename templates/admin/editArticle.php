@@ -52,24 +52,26 @@
                 </select>
               </li>
               <li>
-                <label for="categoryId">Авторы</label>
+                <label for="categoryId">Все авторы</label>
                 <p><select multiple size="" name="authors[]">
                 <!--<option value="0"<?php echo count($results["users"]) > 0 ? " selected" : ""?>>(none)</option>-->
                 <?php foreach ( $results["users"] as $user ) { ?>
                   <option value="<?php echo $user->id?>"><?php echo htmlspecialchars($user->login)?></option>
                 <?php } ?>
                 </select>
-                </p
+                </p>
               </li>
-
-              <li>
-                <label for="publicationDate">Publication Date</label>
-<!--                <input type="date" name="publicationDate" id="publicationDate" placeholder="YYYY-MM-DD" required maxlength="10" value="<?php echo $results['article']->publicationDate ? date( "Y-m-d", $results['article']->publicationDate ) : "" ?>" />-->
-                <input type="date" name="publicationDate" id="publicationDate" placeholder="YYYY-MM-DD" required maxlength="10" value="<?php echo $results['article']->publicationDate ? date( "Y-m-d", $results['article']->publicationDate ) : "" ?>" />
+               <li>
+                   <div id="authors"> Авторы статьи<?php
+                        $listAuthors = $Authors->getAuthors((int)$_GET['articleId']);
+                        foreach($listAuthors as $author) {
+                            echo " ".$author->login ." ";
+                        }
+                        
+                    ?>
+                   </div>
               </li>
-              
               <li>
-
                 <label for="active">Active</label>
                 <INPUT NAME="ActiveArticle" TYPE="CHECKBOX" VALUE="1"
                     <?php
@@ -78,6 +80,14 @@
                         }
                     ?> >  
               </li>
+
+              <li>
+                <label for="publicationDate">Publication Date</label>
+<!--                <input type="date" name="publicationDate" id="publicationDate" placeholder="YYYY-MM-DD" required maxlength="10" value="<?php echo $results['article']->publicationDate ? date( "Y-m-d", $results['article']->publicationDate ) : "" ?>" />-->
+                <input type="date" name="publicationDate" id="publicationDate" placeholder="YYYY-MM-DD" required maxlength="10" value="<?php echo $results['article']->publicationDate ? date( "Y-m-d", $results['article']->publicationDate ) : "" ?>" />
+              </li>
+              
+
 
             </ul>
             <div class="buttons">

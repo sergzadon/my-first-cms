@@ -329,26 +329,28 @@ class Article
         );
     }
     
-    /**
-     * выводим авторов статьи
-     */
-    public function getAuthors() {
-        $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-        $sql = "SELECT * FROM  users_articles LEFT JOIN users ON user_id = id 
-    WHERE users_articles.article_id = :id ";
-        $study = $connection->prepare($sql);
-        $study->bindValue(":id", $this->id, PDO::PARAM_INT);
-        $study->execute();  
-        
-        $list = array();
-        
-        while ($row = $study->fetch()) {
-            $article = new User($row);
-            $list[] = $article;
-        }
-        return $list;
-      
-    }         
+//    /**
+//     * выводим авторов статьи
+//     */
+//    public function getAuthors() {
+//        $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+//        $sql = "SELECT * FROM  users_articles LEFT JOIN users ON user_id = id 
+//    WHERE users_articles.article_id = :id ";
+//        $study = $connection->prepare($sql);
+//        $study->bindValue(":id", $this->id, PDO::PARAM_INT);
+//        $study->execute();  
+//        
+//        $list = array();
+//        
+//        while ($row = $study->fetch()) {
+//            $article = new User($row);
+//            $list[] = $article;
+//        }
+////        var_dump($list);
+////        die();
+//        return $list;
+//      
+//    }         
             
 
     /**

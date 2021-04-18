@@ -55,7 +55,12 @@
                 }?>
               </td>
               <td>
-                  
+              <?php
+                $listAuthors = $Authors->getAuthors($article->id);
+                foreach($listAuthors as $author) {
+                    echo $author->login. " ";
+                }
+              ?>
               </td>
               <td>
                 <?php

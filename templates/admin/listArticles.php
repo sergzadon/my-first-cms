@@ -38,7 +38,7 @@
             <!--<?php echo "<pre>"; print_r ($results); echo "</pre>"; ?> Здесь есть доступ к полному объекту $results -->
              
                 <?php 
-                if(isset ($article->categoryId)) {
+                if(isset ($article->categoryId) && $article->categoryId > 0) {
                     echo $results['categories'][$article->categoryId]->name;                        
                 }
                 else {
@@ -57,8 +57,13 @@
               <td>
               <?php
                 $listAuthors = $Authors->getAuthors($article->id);
+                $count = 0;
                 foreach($listAuthors as $author) {
-                    echo $author->login. " ";
+                    echo " ".$author->login ." ";
+                    $count += 1;
+                    if($count != count($listAuthors)) {
+                        echo ",";
+                    }
                 }
               ?>
               </td>

@@ -45,11 +45,26 @@
                         Авторы
                          <h3>
                        <?php 
+                            $count = 0;
                             $listAuthors = $Authors->getAuthors($article->id);
-                                   foreach($listAuthors as $Authors ){
-                                        echo $Authors->login." ";
-                                   }
+                            foreach($listAuthors as $Authors ) {
+//                                echo $Authors->login." ";
+//                                $count += 1;
+//                                if($count != count($listAuthors)) {
+//                                    echo ",";
+//                                } ?>
+                                <a href="admin.php?action=viewAuthors&amp;userId=<?php echo $Authors->id?>">
+                                <?php echo htmlspecialchars( 
+                                        $Authors->login );
+                                $count += 1;
+                                if($count != count($listAuthors)) {
+                                    echo ",";
+                                } ?>
+                             </a>
+                          <?php  } 
+                            $count = 0;
                         ?>
+                             
                         </h3>
                     </span>
                 

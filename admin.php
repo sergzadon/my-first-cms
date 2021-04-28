@@ -163,25 +163,48 @@ function newArticle() {
     $results['formAction'] = "newArticle";
 
     if ( isset( $_POST['saveChanges'] ) ) {
-//            echo "<pre>";
-//            print_r($_POST);
-//            echo "<pre>";
-//            die();
-        // добавил в задание 2
-        $_POST["active"] = 1;
-        //
-        
+        if (isset($_POST['ActiveArticle'])) {
+            $_POST['active'] = 1;
+        }
+        else{
+            $_POST['active'] = 0; 
+        }
+
         $article = new Article();
         $article->storeFormValues( $_POST );
 //            echo "<pre>";
 //            print_r($article);
 //            echo "<pre>";
 //            die();
+        if(Subcategory::getSubcatId($article->subcategoryId
+                )->outerId != $article->categoryId ) {
+            $results["errorMessage"] = "Данная подкатегория не соответствует категории";
+            $data = Category::getList();
+            $results['categories'] = $data['results'];
 
-//            А здесь данные массива $article уже неполные(есть только Число от даты, категория и полный текст статьи)          
+            $data = Subcategory::getList();
+            $results['subcategories'] = $data['results'];
+            
+            $data = User::getListUsers();
+            $results["users"] = $data["results"];
+            
+            $results['article'] = new Article;
+
+            $results['article']->storeFormValues( $_POST );
+//            echo "<pre>";
+//            print_r($results['article']);
+//            echo "<pre>";
+//            die();
+            require(TEMPLATE_PATH . "/admin/editArticle.php");
+        }
+
+        
+        else {
+          //А здесь данные массива $article уже неполные(есть только Число от даты, категория и полный текст статьи)          
         $article->insert();
-        header( "Location: admin.php?status=changesSaved" );
-
+        header( "Location: admin.php?status=changesSaved" ); 
+        }
+        
     } elseif ( isset( $_POST['cancel'] ) ) {
 
         // Пользователь сбросил результаты редактирования: возвращаемся к списку статей
@@ -190,10 +213,6 @@ function newArticle() {
 
         // Пользователь еще не получил форму редактирования: выводим форму
         $results['article'] = new Article;
-//            echo "<pre>";
-//            print_r($results['article']);
-//            echo "<pre>";
-//            die();
         $data = Category::getList();
         $results['categories'] = $data['results'];
         
@@ -210,71 +229,34 @@ function newArticle() {
     }
 }
 
-/*
-function editArticle() {
-	  
-    $results = array();
-    $results['pageTitle'] = "Edit Article";
-    $results['formAction'] = "editArticle";
 
-    if (isset($_POST['saveChanges'])) {
-
-        // Пользователь получил форму редактирования статьи: сохраняем изменения
-        if ( !$article = Article::getById( (int)$_POST['articleId'] ) ) {
-            header( "Location: admin.php?error=articleNotFound" );
-            return;
-        }
-
-        $article->storeFormValues( $_POST );
-        $article->update();
-        header( "Location: admin.php?status=changesSaved" );
-
-    } elseif ( isset( $_POST['cancel'] ) ) {
-
-        // Пользователь отказался от результатов редактирования: возвращаемся к списку статей
-        header( "Location: admin.php" );
-    } else {
-
-        // Пользoватель еще не получил форму редактирования: выводим форму
-        $results['article'] = Article::getById((int)$_GET['articleId']);
-        $data = Category::getList();
-        $results['categories'] = $data['results'];
-        require(TEMPLATE_PATH . "/admin/editArticle.php");
-    }
-
-}
-
-*/
-/**
- * Редактирование статьи
- * 
- * @return null
- */
 
 function editArticle() {
 
     $results = array();
     $results['pageTitle'] = "Edit Article";
     $results['formAction'] = "editArticle";
+    
     if (isset($_POST['saveChanges']))  {
-        $article = new Article;
         if (isset($_POST['ActiveArticle'])) {
             $_POST['active'] = 1;
         }
         else{
-           $_POST['active'] = 0; 
+            $_POST['active'] = 0; 
         }
 
+        $article = new Article;
         $article->storeFormValues( $_POST );
-//           echo "<pre>";
-//            print_r($article);
-//            echo "<pre>";
-//            die();
       // Пользователь получил форму редактирования статьи: сохраняем изменения
 //        if ( !$article = Article::getById((int)$article->id)) {
 //            header( "Location: admin.php?error=articleNotFound" );
 //            return;
 //        }
+//
+//            echo "<pre>";
+//            print_r($article);
+//            echo "<pre>";
+//            die();
 
         if (Subcategory::getSubcatId(
                 $article->subcategoryId )->outerId != $article->categoryId 
@@ -301,22 +283,17 @@ function editArticle() {
         else {
           // добавил в задание 2
           // меняем значение поля active в базе данных
-                if (isset($_POST['ActiveArticle'])) {
-                    $_POST['active'] = 1;
-                }
-                else{
-                   $_POST['active'] = 0; 
-                }
-//            echo "<pre>";
-//            print_r($_POST["authors"]);
-//            echo "<pre>";
-//            die();
-//               $article->storeFormValues( $_POST );
+//                if (isset($_POST['ActiveArticle'])) {
+//                    $_POST['active'] = 1;
+//                }
+//                else{
+//                   $_POST['active'] = 0; 
+//                }
 //            echo "<pre>";
 //            print_r($article);
 //            echo "<pre>";
 //            die();
-                
+
                 $article->update();
                 header( "Location: admin.php?status=changesSaved" );  
         }
@@ -342,7 +319,10 @@ function editArticle() {
         
         $data = User::getListUsers();
         $results["users"] = $data["results"];
-        
+        //            echo "<pre>";
+//            print_r($results["users"]);
+//            echo "<pre>";
+//            die();
         $Authors = new User;
         require(TEMPLATE_PATH . "/admin/editArticle.php");
     }

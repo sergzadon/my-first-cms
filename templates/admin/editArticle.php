@@ -6,6 +6,24 @@
             echo 345; 
             print_r($data);
         echo "<pre>"; ?> Данные о массиве $results и типе формы передаются корректно-->
+        <?php
+        // определение авторов статьи
+        if(isset($_GET['articleId'])) {
+           $listAuthors = $Authors->getAuthors((int)$_GET['articleId']);
+           function authorsArticle($list) {
+               $arrId = [];
+               foreach($list as $idAuthor){
+                  $arrId[] = $idAuthor->id;
+               }
+               return $arrId;
+           }
+           $idAuthors = authorsArticle($listAuthors);
+//            echo "<pre>";
+//            print_r($idAut);
+//            echo "<pre>";
+//            die();
+        }
+        ?>
 
         <h1><?php echo $results['pageTitle']?></h1>
 
@@ -51,26 +69,32 @@
                 <?php } ?>
                 </select>
               </li>
-              <li>
-                <label for="categoryId">Все авторы</label>
-                <p><select multiple size="" name="authors[]">
-                <!--<option value="0"<?php echo count($results["users"]) > 0 ? " selected" : ""?>>(none)</option>-->
-                <?php foreach ( $results["users"] as $user ) { ?>
-                  <option value="<?php echo $user->id?>"><?php echo htmlspecialchars($user->login)?></option>
-                <?php } ?>
-                </select>
-                </p>
-              </li>
-               <li>
-                   <div id="authors"> Авторы статьи<?php
-                        $listAuthors = $Authors->getAuthors((int)$_GET['articleId']);
-                        foreach($listAuthors as $author) {
-                            echo " ".$author->login ." ";
-                        }
-                        
-                    ?>
-                   </div>
-              </li>
+                    <li>
+                      <label for="authors[]">Все авторы</label>
+                      <select name="authors[]" multiple="multiple">
+                          <?php foreach ($results['users'] as $user) { ?>
+                              <option value="<?php echo $user->id?>"
+                                  <?php echo (isset($idAuthors) &&  in_array($user->id, $idAuthors)) ? " selected" : "" ?>><?php echo htmlspecialchars($user->login)?></option>
+                          <?php } ?>
+                      </select>
+                    </li>
+                    <?php
+                        if(isset($_GET['articleId'])) { ?>
+                        <li>
+                            <div id="authors"> Авторы статьи<?php
+                                 $count = 0;
+                                 foreach($listAuthors as $author) {
+                                     echo " ".$author->login ." ";
+                                     $count += 1;
+                                     if($count != count($listAuthors)) {
+                                         echo ",";
+                                     }
+                                 } 
+                             ?>
+                            </div>
+                       </li>
+                  <?php } ?>
+
               <li>
                 <label for="active">Active</label>
                 <INPUT NAME="ActiveArticle" TYPE="CHECKBOX" VALUE="1"

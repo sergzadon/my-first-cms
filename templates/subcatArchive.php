@@ -17,8 +17,9 @@
                 <?php echo date("j F Y", $article->publicationDate) ?>
             </span> 
             <a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>">
-                    <?php echo htmlspecialchars( $article->title )?>
-                </a>
+                    <?php echo htmlspecialchars( 
+                            $article->title )?>
+            </a>
             
             <h4>
             <div class="catSub">

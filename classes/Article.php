@@ -367,10 +367,10 @@ class Article
         if ( !is_null( $this->id ) ) trigger_error ( "Article::insert(): Attempt to insert an Article object that already has its ID property set (to $this->id).", E_USER_ERROR );
 
         // Вставляем статью
-        $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        $connection = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
         $sql = "INSERT INTO articles ( publicationDate, categoryId,title, summary, content, active, subcategoryId ) VALUES ( FROM_UNIXTIME(:publicationDate), :categoryId, :title, :summary, :content, :active, :subcategoryId)";
 
-        $st = $conn->prepare ( $sql );
+        $st = $connection->prepare ( $sql );
         $st->bindValue( ":publicationDate", $this->publicationDate, PDO::PARAM_INT );
         $st->bindValue( ":categoryId", $this->categoryId, PDO::PARAM_INT );
         $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
@@ -379,14 +379,28 @@ class Article
         $st->bindValue( ":active", $this->ActiveArticle, PDO::PARAM_INT );
         $st->bindValue( ":subcategoryId", $this->subcategoryId, PDO::PARAM_INT );
         $st->execute();
-        $this->id = $conn->lastInsertId();
-        $conn = null;
+        $this->id = $connection->lastInsertId();
+
+        foreach($this->authors as $author) {
+            $sql2 = "INSERT INTO users_articles(user_id, article_id)
+                    VALUES(:user_id, :article_id)";
+            $study = $connection->prepare($sql2);
+            $study->bindValue(":user_id",$author,PDO::PARAM_INT);
+            $study->bindValue(":article_id", $this->id,PDO::PARAM_INT);
+            $study->execute();
+            
+        }
+        $connection = null;
     }
 
     /**
     * Обновляем текущий объект статьи в базе данных
     */
     public function update() {
+//                    echo "<pre>";
+//            print_r($listAuthors);
+//            echo "</pre>";
+//            die();
 
       // Есть ли у объекта статьи ID?
       if ( is_null( $this->id ) ) trigger_error ( "Article::update(): "
@@ -409,21 +423,28 @@ class Article
       $st->bindValue(":active", $this->ActiveArticle, PDO::PARAM_INT);
       $st->bindValue(":subcategoryId",$this->subcategoryId,PDO::PARAM_INT);
       $st->execute();
-//      $connection = null;
       
-      foreach($this->authors as $userId) {
-          $sql2 = "INSERT INTO users_articles(user_id, article_id) 
-              VALUES(:user_id, :article_id)";
-          $study = $connection->prepare($sql2);
-          $study->bindValue(":user_id",$userId, PDO::PARAM_INT );
-          $study->bindValue(":article_id", $this->id, PDO::PARAM_INT);
-          $study->execute();
-      }
-      $connection = null;
-      
-    }
+      // удаляем запись в таблице связей
+      $sql2 = "DELETE FROM users_articles WHERE article_id = :article_id";
+      $study = $connection->prepare($sql2);
+      $study->bindValue(":article_id", $this->id, PDO::PARAM_INT);
+      $study->execute();
+//            echo "<pre>";
+//            print_r($this->authors);
+//            echo "<pre>";
+//            die();
+      // вставляем в таблицу связей авторов
+        foreach ($this->authors as $authorId) {
+            $sql3 = "INSERT INTO users_articles(user_id, article_id) 
+                     VALUES(:user_id, :article_id)";
+            $study = $connection->prepare($sql3);
+            $study->bindValue(":user_id", $authorId, PDO::PARAM_INT);
+            $study->bindValue(":article_id", $this->id,PDO::PARAM_INT);
+            $study->execute();         
+        }
+        $connection = null;
 
-
+}
     /**
     * Удаляем текущий объект статьи из базы данных
     */

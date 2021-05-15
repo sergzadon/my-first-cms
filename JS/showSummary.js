@@ -1,18 +1,18 @@
 $(function(){
     
     console.log('Привет, это стaрый js ))');
-    init_get();
-    init_post();
+    reqAjaxGet();
+    reqAjaxPost();
 });
 
-function init_get() 
+function reqAjaxGet() 
 {
-    $('a.ajaxArticleBodyByGet').one('click', function(){
-        var contentId = $(this).attr('data-contentId');
+    $('a.ajaxArticleBodyByGetNew').one('click', function(){
+        var contentId = $(this).attr('data-summury');
         console.log('ID статьи = ', contentId); 
         showLoaderIdentity();
         $.ajax({
-            url:'/ajax/showContentsHandler.php?articleId=' + contentId, 
+            url:'/ajax/showSummaryHandler.php?articleId=' + contentId, 
             dataType: 'json'
         })
         .done (function(obj){
@@ -35,14 +35,14 @@ function init_get()
     });  
 }
 
-function init_post() 
+function reqAjaxPost() 
 {
-    $('a.ajaxArticleBodyByPost').one('click', function(){
-        var content = $(this).attr('data-contentId');
-        console.log('ID статьи = ', content);
+    $('a.ajaxArticleBodyByPostNew').one('click', function(){
+        var content = $(this).attr('data-summury');
+//        console.log('ID статьи = ', content);
         showLoaderIdentity();
         $.ajax({
-            url:'/ajax/showContentsHandler.php',
+            url:'/ajax/showSummaryHandler.php',
             data: 'articleId=' + content ,
             dataType: 'json',
 //            converters: 'json text',
